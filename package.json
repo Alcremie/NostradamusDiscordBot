@@ -1,0 +1,15 @@
+{
+  "name": "nostradamus",
+  "version": "2.0.0",
+  "description": "Nostradamus bot for /r/French Discord server",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "toffafy",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^11.2.1",
+    "mysql": "^2.15.0"
+  }
+}
