@@ -5,11 +5,11 @@ const server = require("./server");
 const User = {};
 
 User.hasLevelRole = (user) => {
-    return User.hasRole(user, Role.frenchLevelRoles);
+    return User.hasRoles(user, Role.frenchLevelRoles);
 };
 
 User.isFrenchNative = (user) => {
-    return User.hasRole(user, Role.names.native);
+    return User.hasRoles(user, Role.names.native);
 };
 
 
@@ -31,11 +31,11 @@ User.hasModRole = (user) => {
 };
 
 User.hasLanguageRole = (user) => {
-    return User.hasRole(user, Role.languages);
+    return User.hasRoles(user, Role.languages);
 };
 
 User.hasCountryRole = (user) => {
-    return User.hasRole(user, Role.countries);
+    return User.hasRoles(user, Role.countries);
 };
 
 // checks if user has level, country, and native language roles
@@ -46,22 +46,25 @@ User.hasProperRoles = (user) => {
         rolesSet++;
     }
 
-    if (User.hasLanguageRole(user) || User.hasRole(user, [Role.NO_LANGUAGE]) || User.isFrenchNative(user)) {
+    if (User.hasLanguageRole(user) || User.hasRole(user, Role.NO_LANGUAGE) || User.isFrenchNative(user)) {
         rolesSet++;
     }
 
-    if (User.hasCountryRole(user) || User.hasRole(user, [Role.NO_COUNTRY])) {
+    if (User.hasCountryRole(user) || User.hasRole(user, Role.NO_COUNTRY)) {
         rolesSet++;
     }
 
     return rolesSet >= 2;
 };
 
-User.hasRole = (user, roles) => {
-    if (!user) return false;
+User.hasRoles = (member, rolesNames) => {
+    if (typeof member === 'undefined' || typeof rolesNames === 'undefined') {
+        Channel.logInChannel('Couldn\'t know if member has role because either member or roles was undefined (hasRoles)');
+        return false;
+    }
 
-    for (let i = 0, len = roles.length; i < len; i++) {
-        if (user.roles.exists('name', roles[i])) {
+    for (let i = 0; i < rolesNames.length; i++) {
+        if (User.hasRole(member, rolesNames[i])) {
             return true;
         }
     }
@@ -69,10 +72,19 @@ User.hasRole = (user, roles) => {
     return false;
 };
 
+User.hasRole = (member, roleName) => {
+    if (typeof member === 'undefined' || typeof roleName === 'undefined') {
+        Channel.logInChannel('Couldn\'t know if member has role because either member or roles was undefined (hasRole)');
+        return false;
+    }
+
+    return member.roles.exists('name', roleName);
+};
+
 User.getRole = (user, roles) => {
     if (!user) return false;
 
-    for (let i = 0, len = roles.length; i < len; i++) {
+    for (let i = 0; i < roles.length; i++) {
         if (user.roles.exists('name', roles[i])) {
             return roles[i];
         }

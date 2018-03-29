@@ -58,7 +58,7 @@ commands.setFrenchLevel = (input, guildMessage) => {
         roles.push(guildMessage.guild.roles.find('name', 'Étudiant'));
     }
 
-    if (User.hasProperRoles(member) && !User.hasRole(member, ['Membre Officiel'])) {
+    if (User.hasProperRoles(member) && !User.hasRole(member, 'Membre Officiel')) {
         roles.push(getAccessRole(guildMessage));
     }
 
@@ -69,7 +69,7 @@ commands.setFrenchLevel = (input, guildMessage) => {
         	guildMessage.channel.send(member.user + ': You\'ve been tagged with `' + role + '`.');
 		}
 
-		if (User.hasRole(member, [previousRole])) {
+		if (User.hasRole(member, previousRole)) {
 			let roleToRemove = guildMessage.guild.roles.find('name', previousRole);
 
 			setTimeout(() => {
@@ -123,7 +123,7 @@ commands.setNativeLanguage = (input, guildMessage) => {
 		role = Role.names.native;
 	}
 
-	if (User.hasRole(member, [role])) {
+	if (User.hasRole(member, role)) {
 		if (role !== noRole) { 
 	    	guildMessage.channel.send(member.user + ': You already have that role.');
         }
@@ -134,7 +134,7 @@ commands.setNativeLanguage = (input, guildMessage) => {
     let newRole = guildMessage.guild.roles.find('name', role);
     let roles = [newRole];
 
-    if (User.hasProperRoles(member) && !User.hasRole(member, ['Membre Officiel'])) {
+    if (User.hasProperRoles(member) && !User.hasRole(member, 'Membre Officiel')) {
         roles.push(getAccessRole(guildMessage));
     }
 
@@ -142,7 +142,7 @@ commands.setNativeLanguage = (input, guildMessage) => {
         if (role !== noRole) {
             guildMessage.channel.send(member.user + ': You\'ve been tagged with `' + role + '`.');
 
-            if (User.hasRole(member, [noRole])) {
+            if (User.hasRole(member, noRole)) {
                 let roleToRemove = guildMessage.guild.roles.find('name', noRole);
 
                 setTimeout(() => {
@@ -157,6 +157,22 @@ commands.setNativeLanguage = (input, guildMessage) => {
         Channel.logInChannel(err);
         guildMessage.channel.send('Something went wrong...');
     });
+};
+
+// !mini-class
+commands.setMiniClassRole = (guildMessage) => {
+    let member = guildMessage.member;
+    let miniClassRole = guildMessage.guild.roles.find('name', 'mini-class');
+
+    if (User.hasRole(member, 'mini-class')) {
+        member.removeRole(miniClassRole).then(() => {
+            guildMessage.reply('you no longer have the mini-class role.');
+        });
+    } else {
+        member.addRole(miniClassRole).then(() => {
+            guildMessage.reply('you now have the mini-class role.');
+        });
+    }
 };
 
 // !origin [country]
@@ -199,7 +215,7 @@ commands.setCountry = (input, guildMessage) => {
         role = noRole;
     }
 
-	if (User.hasRole(member, [role])) {
+	if (User.hasRole(member, role)) {
         if (role !== noRole) {
             guildMessage.channel.send(member.user + ': You already have that role.');
         }
@@ -211,7 +227,7 @@ commands.setCountry = (input, guildMessage) => {
     let newRole = guildMessage.guild.roles.find('name', role);
     let roles = [newRole];
     
-	if (User.hasProperRoles(member) && !User.hasRole(member, ['Membre Officiel'])) {
+	if (User.hasProperRoles(member) && !User.hasRole(member, 'Membre Officiel')) {
         roles.push(getAccessRole(guildMessage));
     }
     
@@ -219,7 +235,7 @@ commands.setCountry = (input, guildMessage) => {
 		if (role !== noRole) {
             guildMessage.channel.send(member.user + ': You\'ve been tagged with `' + role + '`.');
 
-            if (User.hasRole(member, [noRole])) {
+            if (User.hasRole(member, noRole)) {
                 let roleToRemove = guildMessage.guild.roles.find('name', noRole);
 
                 setTimeout(() => {
@@ -333,7 +349,7 @@ commands.tagUser = (input, guildMessage) => {
             user.addRole(newRole).then(() => {
                 guildMessage.channel.send(userId + ': You\'ve been tagged with `' + role + '`.');
 
-                if (User.hasRole(user, [noRole])) {
+                if (User.hasRole(user, noRole)) {
                     let roleToRemove = guildMessage.guild.roles.find('name', noRole);
 
                     setTimeout(() => {

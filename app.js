@@ -81,6 +81,8 @@ bot.on("message", msg => {
 		commands.setNativeLanguage(arg, msg);
 	} else if (command.startsWith('origin') || command.startsWith('country')) {
 		commands.setCountry(arg, msg);
+	} else if (command.startsWith('mini-class') || command.startsWith('miniclass')) {
+		commands.setMiniClassRole(msg);
 	}  else if (command.startsWith('list')) {
 		commands.getList(arg, msg);
 	} else if (command.startsWith('suggest')) {
