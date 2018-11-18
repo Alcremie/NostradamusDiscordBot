@@ -12,11 +12,6 @@ User.isFrenchNative = (user) => {
     return User.hasRoles(user, Role.names.native);
 };
 
-
-User.hasStudentRole = (user) => {
-
-};
-
 User.hasNativeRole = (user) => {
 
 };

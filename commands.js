@@ -37,7 +37,6 @@ commands.setFrenchLevel = (input, guildMessage) => {
 
     // find role in alt list
     let role = Role.names[text];
-    let isStudent = text !== 'native';
 
     // role isn't in the list, or it's not a valid normal user role
     if (!role || !validRoles.includes(role)) {
@@ -53,10 +52,6 @@ commands.setFrenchLevel = (input, guildMessage) => {
     // get the Role object
     let newRole = guildMessage.guild.roles.find('name', role);
     let roles = [newRole];
-
-    if (isStudent && !previousRole.length) {
-        roles.push(guildMessage.guild.roles.find('name', 'Étudiant'));
-    }
 
     if (User.hasProperRoles(member) && !User.hasRole(member, 'Membre Officiel')) {
         roles.push(getAccessRole(guildMessage));
