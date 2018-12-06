@@ -4,6 +4,7 @@ const Server = require('./server');
 const commands = require('./commands');
 const User = require('./user');
 const Channel = require('./channel');
+const Spreadsheets = require('./spreadsheets');
 
 const bot = new Discord.Client();
 
@@ -45,6 +46,10 @@ bot.on("message", msg => {
 		}
     }
 
+    if (Spreadsheets.ready) {
+        Spreadsheets.incrementNumberMessages();
+    }
+
     if (!content.startsWith(prefix)) {
 	    return;
     }
@@ -74,6 +79,10 @@ bot.on("message", msg => {
 
 		return;
 	}
+
+	if (msg.channel.name !== 'bienvenue' && msg.channel.parentID !== '361961604402774016') {
+	    return;
+    }
 
 	if (command.startsWith('french') || command.startsWith('level')) {
 		commands.setFrenchLevel(arg, msg);
@@ -117,14 +126,14 @@ bot.on("message", msg => {
     const argCS = commandArgsCS.slice(1).join(' ');
 
     //RMMTMP
-    if(msg.member === null){
+    if(msg.member === null && msg.guild.member(msg.author) === null){
         Channel.logInChannel("msg.member is null, which is needed to check hasModRole.");
         Channel.logInChannel("This is the message author: " + msg.author);
         Channel.logInChannel("This is the message object: " + msg);
     }
 
 
-    if (User.hasModRole(msg.member)) {
+    if (User.hasModRole(msg.member !== null ? msg.member : msg.guild.member(msg.author))) {
     	const terms = argCS.split('|');
 		const english = terms[0];
 		const french = terms[1];
