@@ -1,6 +1,7 @@
 const Channel = require("./channel");
 const Role = require("./role");
 const User = require("./user");
+const InteractiveWelcome = require('./interactive-welcome');
 const commands = {
     prefix: '!'
 };
@@ -52,9 +53,11 @@ commands.setFrenchLevel = (input, guildMessage) => {
     // get the Role object
     let newRole = guildMessage.guild.roles.find('name', role);
     let roles = [newRole];
+    let canNowPost = false;
 
     if (User.hasProperRoles(member) && !User.hasRole(member, 'Membre Officiel')) {
         roles.push(getAccessRole(guildMessage));
+        canNowPost = true;
     }
 
     member.addRoles(roles).then(() => {
@@ -62,6 +65,7 @@ commands.setFrenchLevel = (input, guildMessage) => {
 			guildMessage.channel.send(member.user + ': Your level has been changed to `' + role + '`.');
 		} else {
         	guildMessage.channel.send(member.user + ': You\'ve been tagged with `' + role + '`.');
+            setTimeout(() => InteractiveWelcome.statusUpdated(guildMessage, canNowPost), 500); // Without the timeout, it seems that the roles are still not set
 		}
 
 		if (User.hasRole(member, previousRole)) {
@@ -128,14 +132,17 @@ commands.setNativeLanguage = (input, guildMessage) => {
     // get the Role object
     let newRole = guildMessage.guild.roles.find('name', role);
     let roles = [newRole];
+    let canNowPost = false;
 
     if (User.hasProperRoles(member) && !User.hasRole(member, 'Membre Officiel')) {
         roles.push(getAccessRole(guildMessage));
+        canNowPost = true;
     }
 
     member.addRoles(roles).then(() => {
         if (role !== noRole) {
             guildMessage.channel.send(member.user + ': You\'ve been tagged with `' + role + '`.');
+            setTimeout(() => InteractiveWelcome.statusUpdated(guildMessage, canNowPost), 500); // Without the timeout, it seems that the roles are still not set
 
             if (User.hasRole(member, noRole)) {
                 let roleToRemove = guildMessage.guild.roles.find('name', noRole);
@@ -221,14 +228,17 @@ commands.setCountry = (input, guildMessage) => {
     // get the Role object
     let newRole = guildMessage.guild.roles.find('name', role);
     let roles = [newRole];
+    let canNowPost = false;
     
 	if (User.hasProperRoles(member) && !User.hasRole(member, 'Membre Officiel')) {
         roles.push(getAccessRole(guildMessage));
+        canNowPost = true;
     }
     
 	member.addRoles(roles).then(() => {
 		if (role !== noRole) {
             guildMessage.channel.send(member.user + ': You\'ve been tagged with `' + role + '`.');
+            setTimeout(() => InteractiveWelcome.statusUpdated(guildMessage, canNowPost), 500); // Without the timeout, it seems that the roles are still not set
 
             if (User.hasRole(member, noRole)) {
                 let roleToRemove = guildMessage.guild.roles.find('name', noRole);

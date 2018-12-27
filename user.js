@@ -58,6 +58,10 @@ User.hasRoles = (member, rolesNames) => {
         return false;
     }
 
+    if (typeof rolesNames === 'string') {
+        rolesNames = [rolesNames];
+    }
+
     for (let i = 0; i < rolesNames.length; i++) {
         if (User.hasRole(member, rolesNames[i])) {
             return true;

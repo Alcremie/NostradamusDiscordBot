@@ -9,6 +9,38 @@ Role.names = {
     'intermediate': 'Intermédiaire',
     'advanced': 'Avancé',
     'native': 'Francophone Natif',
+
+    // french level alts
+    'débutant': 'Débutant',
+    'debutant': 'Débutant',
+    'débutante': 'Débutant',
+    'debutante': 'Débutant',
+    'intermédiaire': 'Intermédiaire',
+    'intermediaire': 'Intermédiaire',
+    'avancé': 'Avancé',
+    'avance': 'Avancé',
+    'avancée': 'Avancé',
+    'avancee': 'Avancé',
+    'natif': 'Francophone Natif',
+};
+
+Role.frenchLevelNames = {
+    // french level
+    'beginner': Role.names.beginner,
+    'débutant': Role.names.beginner,
+    'debutant': Role.names.beginner,
+    'débutante': Role.names.beginner,
+    'debutante': Role.names.beginner,
+    'intermediate': Role.names.intermediate,
+    'intermédiaire': Role.names.intermediate,
+    'intermediaire': Role.names.intermediate,
+    'advanced': Role.names.advanced,
+    'avancé': Role.names.advanced,
+    'avance': Role.names.advanced,
+    'avancée': Role.names.advanced,
+    'avancee': Role.names.advanced,
+    'native': Role.names.native,
+    'natif': Role.names.native,
 };
 
 Role.frenchLevelRoles = [
@@ -91,7 +123,6 @@ Role.isLanguageRole = (role) => {
     });
 };
 
-// helper functions
 Role.isCountryRole = (role) => {
     return Role.countriesFriendly.some(function(el) {
         return el.toLowerCase() === role.toLowerCase();

@@ -7,6 +7,7 @@ const Channel = require('./channel');
 const Spreadsheets = require('./spreadsheets');
 
 const bot = new Discord.Client();
+global.bot = bot;
 
 process.on('uncaughtException', (exception) => {
     if (typeof bot === 'undefined') {
@@ -56,10 +57,6 @@ bot.on("message", msg => {
 
     let command = content.toLowerCase().substr(prefix.length);
     let commandArgs = command.split(' ');
-
-    if (!command) {
-        return;
-    }
 
     // For single argument commands, only allow one space.
     // If more than one space, assume argument is multi-word
@@ -155,39 +152,12 @@ bot.on("guildMemberAdd", (member) => {
 	    Channel.logInChannel('The channel is this:' + Channel.welcomeChannel);
     }
 
-	Channel.welcomeChannel.send(`**Welcome to the official /r/French Discord, ${member.user}! To send messages in the other channels, please follow these instructions to set your proficiency in French, native language (if not French), and country.** \n\n **Bienvenue sur le serveur Discord officiel de /r/French ! Pour participer aux autres salons, veuillez suivre ces instructions pour vous mettre les tags de niveau de français, langue maternelle et pays d'origine.**\n\n`);
-    Channel.welcomeChannel.send(`
+	Channel.welcomeChannel.send(`**Welcome to the official /r/French Discord, ${member.user}!\nTo be able to send messages in the other channels, please follow these instructions.** \n\n **Bienvenue sur le serveur Discord officiel de /r/French ! Pour pouvoir écrire dans les autres salons, veuillez suivre ces instructions.**`);
 
-1. Set your proficiency in French. / Indiquez votre niveau en français.
-\`\`\`
-!french [beginner|intermediate|advanced|native]
+    const frenchMessage = 'Pour commencer, il faut que tu précises ton niveau en français en tapant dans le chat la commande `!french` suivie de ton niveau. Les niveaux sont débutant, intermédiaire, avancé et natif. Par exemple: `!french intermediaire`';
+    const englishMessage = 'For starters, you need to specify your proficiency in French by typing the command `!french` in the chat followed by your level. The available levels are beginner, intermediate, advanced and native. For example: `!french intermediate`';
 
-Example / Exemple: !french intermediate
-\`\`\`
-2. Choose your native language. (If French, skip this step.) / Indiquez votre langue maternelle. (Si vous êtes francophone natif, passez cette étape.)
-\`\`\`
-!language [language]
-
-Example / Exemple: !language english
-\`\`\`
-3. Indicate your country. / Indiquez votre pays.
-\`\`\`
-!country [country]
-
-Example / Exemple: !country united states
-\`\`\`
-*To get a list of countries or languages: / Pour avoir la liste des pays ou des langues :*
-\`\`\`
-!list countries
-!list languages
-\`\`\`
-*If your country or language is not listed: / Si votre pays ou langue ne se trouve pas dans la liste :*
-\`\`\`
-!language [yourlanguagehere] or !country [yourcountryhere]
-\`\`\`
-
-*If you still cannot send messages in the other channels after tagging yourself, please message or tag one of the moderators.* \n\n *Si, après vous être tagué, vous ne pouvez toujours pas envoyer de message dans les autres salons, veuillez mentionner un modérateur ou lui envoyer un message privé.*
-    `);
+    Channel.welcomeChannel.send(englishMessage + '\n\n' + frenchMessage);
 });
 
 bot.on('ready', () => {
