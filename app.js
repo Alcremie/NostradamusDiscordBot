@@ -6,6 +6,7 @@ const User = require('./user');
 const Channel = require('./channel');
 const Spreadsheets = require('./spreadsheets');
 
+const semiBlacklist = require('./semi-blacklist.json');
 const bot = new Discord.Client();
 global.bot = bot;
 
@@ -39,12 +40,19 @@ bot.on("message", msg => {
 
     let prefix = commands.prefix;
     let content = msg.content;
+    const words = content.toLowerCase().split(' ');
+    const semiBlacklistTriggered = words.some(word => semiBlacklist.some(blackWord => word.indexOf(blackWord) > -1));
 
-	if (msg.channel.type === 'dm') {
-        if (!content.startsWith(prefix)) {
-            commands.dmSent(content, msg);
-        	return;
-		}
+	if (msg.channel.type === 'dm' && !content.startsWith(prefix)) {
+        commands.dmSent(content, msg);
+        return;
+    }
+
+	if (msg.guild !== null && semiBlacklistTriggered) {
+        Channel.botChannel.send(
+            `<@141288766760288256>\nSemi-blacklist triggered by ${msg.author} in ${msg.channel}\n${msg.url}`,
+            Channel.messageToEmbed(msg)
+        );
     }
 
     if (Spreadsheets.ready) {

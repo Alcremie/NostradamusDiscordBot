@@ -51,7 +51,7 @@ commands.setFrenchLevel = (input, guildMessage) => {
 	}
 
     // get the Role object
-    let newRole = guildMessage.guild.roles.find('name', role);
+    let newRole = guildMessage.guild.roles.find(guildRole => guildRole.name === role);
     let roles = [newRole];
     let canNowPost = false;
 
@@ -69,7 +69,7 @@ commands.setFrenchLevel = (input, guildMessage) => {
 		}
 
 		if (User.hasRole(member, previousRole)) {
-			let roleToRemove = guildMessage.guild.roles.find('name', previousRole);
+			let roleToRemove = guildMessage.guild.roles.find(guildRole => guildRole.name === previousRole);
 
 			setTimeout(() => {
 				member.removeRole(roleToRemove).then((info) => {
@@ -130,7 +130,7 @@ commands.setNativeLanguage = (input, guildMessage) => {
 	}
 
     // get the Role object
-    let newRole = guildMessage.guild.roles.find('name', role);
+    let newRole = guildMessage.guild.roles.find(guildRole => guildRole.name === role);
     let roles = [newRole];
     let canNowPost = false;
 
@@ -145,7 +145,7 @@ commands.setNativeLanguage = (input, guildMessage) => {
             setTimeout(() => InteractiveWelcome.statusUpdated(guildMessage, canNowPost), 500); // Without the timeout, it seems that the roles are still not set
 
             if (User.hasRole(member, noRole)) {
-                let roleToRemove = guildMessage.guild.roles.find('name', noRole);
+                let roleToRemove = guildMessage.guild.roles.find(guildRole => guildRole.name === noRole);
 
                 setTimeout(() => {
                     member.removeRole(roleToRemove).then((info) => {
@@ -164,7 +164,7 @@ commands.setNativeLanguage = (input, guildMessage) => {
 // !mini-class
 commands.setMiniClassRole = (guildMessage) => {
     let member = guildMessage.member;
-    let miniClassRole = guildMessage.guild.roles.find('name', 'mini-class');
+    let miniClassRole = guildMessage.guild.roles.find(guildRole => guildRole.name === 'mini-class');
 
     if (User.hasRole(member, 'mini-class')) {
         member.removeRole(miniClassRole).then(() => {
@@ -226,7 +226,7 @@ commands.setCountry = (input, guildMessage) => {
     }
 
     // get the Role object
-    let newRole = guildMessage.guild.roles.find('name', role);
+    let newRole = guildMessage.guild.roles.find(guildRole => guildRole.name === role);
     let roles = [newRole];
     let canNowPost = false;
     
@@ -241,7 +241,7 @@ commands.setCountry = (input, guildMessage) => {
             setTimeout(() => InteractiveWelcome.statusUpdated(guildMessage, canNowPost), 500); // Without the timeout, it seems that the roles are still not set
 
             if (User.hasRole(member, noRole)) {
-                let roleToRemove = guildMessage.guild.roles.find('name', noRole);
+                let roleToRemove = guildMessage.guild.roles.find(guildRole => guildRole.name === noRole);
 
                 setTimeout(() => {
                     member.removeRole(roleToRemove).then((info) => {
@@ -272,7 +272,7 @@ commands.loadRoles = (guildMessage) => {
     if (!User.hasModRole(guildMessage.member)) return;
 
     for (let i = 0; i < Role.languages.length; i++) {
-        if (!guildMessage.guild.roles.find('name', Role.languages[i])) {
+        if (!guildMessage.guild.roles.find(guildRole => guildRole.name === Role.languages[i])) {
           Role.createRole(guildMessage.guild, Role.languages[i])
               .then(role => Channel.logInChannel(`Created role ${role}`))
               .catch(console.error)
@@ -280,7 +280,7 @@ commands.loadRoles = (guildMessage) => {
     }
 
     for (let i = 0; i < Role.countries.length; i++) {
-        if (!guildMessage.guild.roles.find('name', Role.countries[i])) {
+        if (!guildMessage.guild.roles.find(guildRole => guildRole.name === Role.countries[i])) {
             Role.createRole(guildMessage.guild, Role.countries[i])
                 .then(role => Channel.logInChannel(`Created role ${role}`))
                 .catch(console.error)
@@ -320,7 +320,7 @@ commands.addNewRole = (english, french, type, guildMessage) => {
 	}
 
 	if (Channel.isBotChannel(guildMessage.channel)) {
-		if (!guildMessage.guild.roles.find('name', french)) {
+		if (!guildMessage.guild.roles.find(guildRole => guildRole.name === french)) {
             Role.createRole(guildMessage.guild, french)
                 .then(role => {
                     guildMessage.channel.send('Added new role: ' + french);
@@ -347,7 +347,7 @@ commands.tagUser = (input, guildMessage) => {
 
         if (!role) return;
 
-        let newRole = guildMessage.guild.roles.find('name', role);
+        let newRole = guildMessage.guild.roles.find(guildRole => guildRole.name === role);
         let noRole = Role.isCountryRole(role) ? Role.NO_COUNTRY : Role.NO_LANGUAGE;
 
         setTimeout(function() {
@@ -355,7 +355,7 @@ commands.tagUser = (input, guildMessage) => {
                 guildMessage.channel.send(userId + ': You\'ve been tagged with `' + role + '`.');
 
                 if (User.hasRole(user, noRole)) {
-                    let roleToRemove = guildMessage.guild.roles.find('name', noRole);
+                    let roleToRemove = guildMessage.guild.roles.find(guildRole => guildRole.name === noRole);
 
                     setTimeout(() => {
                         user.removeRole(roleToRemove).then(null, err => {
@@ -405,7 +405,7 @@ const requestTag = (input, guildMessage, type) => {
 
 // get access role
 const getAccessRole = (data) => {
-    return data.guild.roles.find('name', 'Membre Officiel');
+    return data.guild.roles.find(guildRole => guildRole.name === 'Membre Officiel');
 };
 
 
