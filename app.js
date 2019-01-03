@@ -104,6 +104,8 @@ bot.on("message", msg => {
         if (User.hasModRole(msg.member) && msg.mentions) {
             commands.setAvatar(arg, msg, bot);
         }
+    } else if (command.startsWith('selfie') || command.startsWith('trombi')) {
+        commands.selfieRoleAsked(msg);
     } else if (command.startsWith('help')) {
 		msg.channel.send(`
 \`\`\`
@@ -152,9 +154,9 @@ bot.on("guildMemberAdd", (member) => {
 	    Channel.logInChannel('The channel is this:' + Channel.welcomeChannel);
     }
 
-	Channel.welcomeChannel.send(`**Welcome to the official /r/French Discord, ${member.user}!\nTo be able to send messages in the other channels, please follow these instructions.** \n\n **Bienvenue sur le serveur Discord officiel de /r/French ! Pour pouvoir écrire dans les autres salons, veuillez suivre ces instructions.**`);
+	Channel.welcomeChannel.send(`**Welcome to the official /r/French Discord, ${member.user}!\nTo be able to send messages in the other channels, please follow these instructions.**\n\n**Bienvenue sur le serveur Discord officiel de /r/French !\nPour pouvoir écrire dans les autres salons, veuillez suivre ces instructions.**`);
 
-    const frenchMessage = 'Pour commencer, il faut que tu précises ton niveau en français en tapant dans le chat la commande `!french` suivie de ton niveau. Les niveaux sont débutant, intermédiaire, avancé et natif. Par exemple: `!french intermediaire`';
+    const frenchMessage = 'Pour commencer, il faut que tu précises ton niveau en français en tapant dans le chat la commande `!french` suivie de ton niveau. Les niveaux sont débutant, intermédiaire, avancé et natif. Par exemple: `!french intermédiaire`';
     const englishMessage = 'For starters, you need to specify your proficiency in French by typing the command `!french` in the chat followed by your level. The available levels are beginner, intermediate, advanced and native. For example: `!french intermediate`';
 
     Channel.welcomeChannel.send(englishMessage + '\n\n' + frenchMessage);
