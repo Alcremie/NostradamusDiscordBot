@@ -34,7 +34,7 @@ process.on('uncaughtException', (exception) => {
 });
 
 bot.on("message", msg => {
-    if(msg.author.bot || (Config.ADMIN_MODE && !msg.member.user.roles.exists('id', Server.admin))) {
+    if(msg.author.bot || (Config.ADMIN_MODE && !msg.member.user.roles.exists(userRole => userRole.id === Server.admin))) {
     	return;
     }
 
@@ -85,19 +85,17 @@ bot.on("message", msg => {
 		return;
 	}
 
-	if (msg.channel.name !== 'bienvenue' && msg.channel.parentID !== '361961604402774016') {
-	    return;
-    }
+	const inRoleSettingChannel = msg.channel.name === 'bienvenue' || msg.channel.parentID === '361961604402774016';
 
-	if (command.startsWith('french') || command.startsWith('level')) {
+	if (inRoleSettingChannel && (command.startsWith('french') || command.startsWith('level'))) {
 		commands.setFrenchLevel(arg, msg);
-	} else if (command.startsWith('language') || command.startsWith('native')) {
+	} else if (inRoleSettingChannel && (command.startsWith('language') || command.startsWith('native'))) {
 		commands.setNativeLanguage(arg, msg);
-	} else if (command.startsWith('origin') || command.startsWith('country')) {
+	} else if (inRoleSettingChannel && (command.startsWith('origin') || command.startsWith('country'))) {
 		commands.setCountry(arg, msg);
 	} else if (command.startsWith('mini-class') || command.startsWith('miniclass')) {
 		commands.setMiniClassRole(msg);
-	}  else if (command.startsWith('list')) {
+	}  else if (inRoleSettingChannel && (command.startsWith('list'))) {
 		commands.getList(arg, msg);
 	} else if (command.startsWith('suggest')) {
 		commands.warnSuggestion(arg, msg);
@@ -112,9 +110,7 @@ bot.on("message", msg => {
         if (User.hasModRole(msg.member) && msg.mentions) {
             commands.setAvatar(arg, msg, bot);
         }
-    } else if (command.startsWith('selfie') || command.startsWith('trombi')) {
-        commands.selfieRoleAsked(msg);
-    } else if (command.startsWith('help')) {
+    } else if (inRoleSettingChannel && (command.startsWith('help'))) {
 		msg.channel.send(`
 \`\`\`
 !french [beginner|intermediate|advanced|native]

@@ -292,7 +292,6 @@ commands.addSuggestion = (input, DMMessage) => {
 	let user = DMMessage.author;
 	
 	user.send('Thank you for your suggestion. Your suggestion will be considered by the mod team.')
- 		.then(message => Channel.logInChannel(`Sent message: ${message.content}`))
  		.catch(console.error);
 
     Channel.botChannel.send('Suggestion by <@' + user.id + '>: `' + input + '`');
@@ -304,7 +303,6 @@ commands.warnSuggestion = (input, guildMessage) => {
 	guildMessage.channel.send(user + ': Please check your private messages for more information on making suggestions.');
 
 	user.send('To make a suggestion, please reply to this message using the following command:```!suggest yoursuggestionhere```')
- 		.then(message => Channel.logInChannel(`Sent message: ${message.content}`))
  		.catch(console.error);
 };
 

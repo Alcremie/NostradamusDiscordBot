@@ -21,7 +21,7 @@ User.hasModRole = (user) => {
         Channel.logInChannel("Umm... null user does not have a mod role?");
 	    return false;
     } else {
-       return user.roles.exists('id', server.admin);
+       return user.roles.exists(userRole => userRole.id === server.admin);
     }
 };
 
@@ -77,14 +77,14 @@ User.hasRole = (member, roleName) => {
         return false;
     }
 
-    return member.roles.exists('name', roleName);
+    return member.roles.exists(userRole => userRole.name === roleName);
 };
 
 User.getRole = (user, roles) => {
     if (!user) return false;
 
     for (let i = 0; i < roles.length; i++) {
-        if (user.roles.exists('name', roles[i])) {
+        if (user.roles.exists(userRole => userRole.name === roles[i])) {
             return roles[i];
         }
     }
