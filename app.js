@@ -49,7 +49,7 @@ bot.on("message", msg => {
     }
 
 	if (msg.guild !== null && semiBlacklistTriggered) {
-        Channel.botChannel.send(
+        Channel.automodChannel.send(
             `<@141288766760288256>\nSemi-blacklist triggered by ${msg.author} in ${msg.channel}\n${msg.url}`,
             Channel.messageToEmbed(msg)
         );
@@ -95,7 +95,9 @@ bot.on("message", msg => {
 		commands.setCountry(arg, msg);
 	} else if (command.startsWith('mini-class') || command.startsWith('miniclass')) {
 		commands.setMiniClassRole(msg);
-	}  else if (inRoleSettingChannel && (command.startsWith('list'))) {
+	} else if (command.startsWith('rep') || command.startsWith('rp')) {
+		commands.reportMember(arg, msg);
+	} else if (inRoleSettingChannel && (command.startsWith('list'))) {
 		commands.getList(arg, msg);
 	} else if (command.startsWith('suggest')) {
 		commands.warnSuggestion(arg, msg);
