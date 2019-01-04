@@ -6,8 +6,11 @@ const User = require('./user');
 const Channel = require('./channel');
 const Spreadsheets = require('./spreadsheets');
 
-const semiBlacklist = require('./semi-blacklist.json');
 const bot = new Discord.Client();
+const semiBlacklist = require('./semi-blacklist.json').map(term => {
+    return `^${term.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&').replace(/%/g, '[^\\s]*').toLowerCase()}$`;
+});
+
 global.bot = bot;
 
 process.on('uncaughtException', (exception) => {
@@ -34,14 +37,18 @@ process.on('uncaughtException', (exception) => {
 });
 
 bot.on("message", msg => {
-    if(msg.author.bot || (Config.ADMIN_MODE && !msg.member.user.roles.exists(userRole => userRole.id === Server.admin))) {
+    if (msg.author.bot || (Config.ADMIN_MODE && !msg.member.user.roles.exists(userRole => userRole.id === Server.admin))) {
     	return;
     }
 
     let prefix = commands.prefix;
     let content = msg.content;
     const words = content.toLowerCase().split(' ');
-    const semiBlacklistTriggered = words.some(word => semiBlacklist.some(blackWord => word.indexOf(blackWord) > -1));
+    const semiBlacklistTriggered = words.some(
+        word => semiBlacklist.some(
+            blackWord => word.match(new RegExp(blackWord)) !== null
+        )
+    );
 
 	if (msg.channel.type === 'dm' && !content.startsWith(prefix)) {
         commands.dmSent(content, msg);
