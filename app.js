@@ -13,6 +13,22 @@ const semiBlacklist = require('./semi-blacklist.json').map(term => {
 
 global.bot = bot;
 
+const crashRecover = (exception) => {
+    console.log('I crashed. I CRASHED D: !');
+    console.log('----');
+    console.log(exception);
+    console.log('----');
+
+    bot.destroy().then(() => {
+        bot.once('ready', () => {
+            Channel.logInChannel('Just recovered from a crash, folks. Not dead yet! Oh, wanna know about what happened? Well, if you can understand it, read the message below.');
+            Channel.logInChannel('```' + exception + '```');
+        });
+
+        bot.login(Config.BOT_TOKEN.live);
+    });
+};
+
 process.on('uncaughtException', (exception) => {
     if (typeof bot === 'undefined') {
         console.log('Crashed at an unknown position. This is weird. This shouldn\'t happen. SEND HALP!');
@@ -20,21 +36,10 @@ process.on('uncaughtException', (exception) => {
         console.log(exception);
         console.log('----');
     } else {
-        console.log('I crashed. I CRASHED D: !');
-        console.log('----');
-        console.log(exception);
-        console.log('----');
-
-        bot.destroy().then(() => {
-            bot.once('ready', () => {
-                Channel.logInChannel('Just recovered from a crash, folks. Not dead yet! Oh, wanna know about what happened? Well, if you can understand it, read the message below.');
-                Channel.logInChannel('```' + exception + '```');
-            });
-
-            bot.login(Config.BOT_TOKEN.live);
-        });
+        crashRecover(exception);
     }
 });
+bot.on('error', crashRecover);
 
 bot.on("message", msg => {
     if (msg.author.bot || (Config.ADMIN_MODE && !msg.member.user.roles.exists(userRole => userRole.id === Server.admin))) {

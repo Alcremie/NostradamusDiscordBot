@@ -55,7 +55,7 @@ commands.setFrenchLevel = (input, guildMessage) => {
     let roles = [newRole];
     let canNowPost = false;
 
-    if (User.hasProperRoles(member) && !User.hasRole(member, 'Membre Officiel')) {
+    if (User.hasProperRoles(member, true) && !User.hasRole(member, 'Membre Officiel')) {
         roles.push(getAccessRole(guildMessage));
         canNowPost = true;
     }

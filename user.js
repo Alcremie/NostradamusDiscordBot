@@ -34,14 +34,15 @@ User.hasCountryRole = (user) => {
 };
 
 // checks if user has level, country, and native language roles
-User.hasProperRoles = (user) => {
+User.hasProperRoles = (user, forceNative) => {
     let rolesSet = 0;
+    forceNative = forceNative || false;
 
     if (User.hasLevelRole(user)) {
         rolesSet++;
     }
 
-    if (User.hasLanguageRole(user) || User.hasRole(user, Role.NO_LANGUAGE) || User.isFrenchNative(user)) {
+    if (User.hasLanguageRole(user) || User.hasRole(user, Role.NO_LANGUAGE) || forceNative || User.isFrenchNative(user)) {
         rolesSet++;
     }
 
