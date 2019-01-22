@@ -4,6 +4,40 @@ const server = require("./server");
 
 const User = {};
 
+User.findFromMessage = (input, guildMessage) => {
+    let foundMembers = [];
+    let certain = true;
+
+    if (guildMessage.mentions.members.array().length > 0) {
+        foundMembers = guildMessage.mentions.members.array();
+    } else if (input.match(/[0-9]{18}/) !== null) {
+        const ids = input.match(/[0-9]{18}/);
+
+        ids.map(id => {
+            if (guildMessage.guild.members.has(id)) {
+                foundMembers.push(guildMessage.guild.members.get(id));
+            }
+        });
+    } else {
+        const memberList = guildMessage.guild.members.array();
+
+        certain = false;
+        memberList.map(member => {
+            const nickname = member.nickname !== null ? `${member.nickname.toLowerCase()}#${member.user.discriminator}` : '';
+            const username = `${member.user.username.toLowerCase()}#${member.user.discriminator}`;
+
+            if (nickname.indexOf(input) > -1 || username.indexOf(input) > -1) {
+                foundMembers.push(member);
+            }
+        });
+    }
+
+    return {
+        certain,
+        foundMembers
+    };
+};
+
 User.hasLevelRole = (user) => {
     return User.hasRoles(user, Role.frenchLevelRoles);
 };

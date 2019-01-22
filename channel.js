@@ -5,6 +5,7 @@ const Channel = {botChannel: null, automodChannel: null, welcomeChannel: null};
 Channel.retrieveChannels = (bot) => {
     Channel.botChannel = bot.guilds.get(Config.server.rfrench).channels.find(channel => channel.name === 'bot');
     Channel.automodChannel = bot.guilds.get(Config.server.rfrench).channels.find(channel => channel.name === 'automod');
+    Channel.modLogChannel = bot.guilds.get(Config.server.rfrench).channels.find(channel => channel.name === 'mod-log');
     Channel.welcomeChannel = bot.guilds.get(Config.server.rfrench).channels.find(channel => channel.name === 'bienvenue');
 };
 

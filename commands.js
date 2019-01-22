@@ -161,37 +161,46 @@ commands.setNativeLanguage = (input, guildMessage) => {
     });
 };
 
+// !warntroll
+commands.warnTroll = (input, guildMessage) => {
+    const member = guildMessage.member;
+    let {certain, foundMembers} = User.findFromMessage(input, guildMessage);
+    let answer = '';
+    let mention = '<@ID>';
+    let warnMessageEn = ``;
+    let warnMessageFr = ``;
+
+    warnMessageEn += `trolling on the French server.`;
+    warnMessageEn += `If you do not change your behavior, you will be banned. `;
+    warnMessageEn += `If you think that this is a mistake, you can contact ${member}.`;
+
+    warnMessageFr += `troll sur le serveur French. `;
+    warnMessageFr += `Si vous ne changez pas de comportement, vous serez banni. `;
+    warnMessageFr += `Si vous pensez que c'est une erreur, vous pouvez contacter ${member}.`;
+
+    if (foundMembers.length > 0) {
+        if (!certain) {
+            answer = `I'm not sure about who you want to warn, but guess it's ${foundMembers[0]}. If that's not correct, please change the ID in the command below accordingly.`;
+        }
+
+        mention = `<@${foundMembers[0].user.id}>`;
+    } else {
+        answer += `I didn't understand who you wanted to warn, so I will just write "<@ID>" in the command below.`
+    }
+
+    answer += `\n\nPlease copy one of the commands below, depending on the warned member's language, and send it in the ${Channel.modLogChannel} channel.\n`;
+    answer += `\`\`\`?warn ${mention} ${warnMessageEn}\`\`\``;
+    answer += `\`\`\`?warn ${mention} ${warnMessageFr}\`\`\``;
+
+    guildMessage.reply(answer);
+};
+
 // !rep
 commands.reportMember = (input, guildMessage) => {
     guildMessage.delete().catch(console.error);
 
     const member = guildMessage.member;
-    let foundMembers = [];
-    let certain = true;
-
-    if (guildMessage.mentions.members.array().length > 0) {
-        foundMembers.push(guildMessage.mentions.members.array());
-    } else if (input.match(/[0-9]{18}/) !== null) {
-        const ids = input.match(/[0-9]{18}/);
-
-        ids.map(id => {
-            if (guildMessage.guild.members.has(id)) {
-                foundMembers.push(guildMessage.guild.members.get(id));
-            }
-        });
-    } else {
-        const memberList = guildMessage.guild.members.array();
-
-        certain = false;
-        memberList.map(member => {
-            const nickname = member.nickname !== null ? `${member.nickname.toLowerCase()}#${member.user.discriminator}` : '';
-            const username = `${member.user.username.toLowerCase()}#${member.user.discriminator}`;
-
-            if (nickname.indexOf(input) > -1 || username.indexOf(input) > -1) {
-                foundMembers.push(member);
-            }
-        });
-    }
+    let {certain, foundMembers} = User.findFromMessage(input, guildMessage);
 
     const certaintySentence = certain ? `\n\nThe reported members are: ` : (foundMembers.length > 0 ? `\n\nI'm not sure about who was reported, but here is a guess: ` : ``);
     foundMembers = foundMembers

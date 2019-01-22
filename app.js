@@ -97,7 +97,8 @@ bot.on("message", msg => {
 		return;
 	}
 
-	const inRoleSettingChannel = msg.channel.name === 'bienvenue' || msg.channel.parentID === '361961604402774016';
+	const inModerationChannel = msg.channel.parentID === '361961604402774016';
+	const inRoleSettingChannel = msg.channel.name === 'bienvenue' || inModerationChannel;
 
 	if (inRoleSettingChannel && (command.startsWith('french') || command.startsWith('level'))) {
 		commands.setFrenchLevel(arg, msg);
@@ -109,6 +110,8 @@ bot.on("message", msg => {
 		commands.setMiniClassRole(msg);
 	} else if (command.startsWith('rep') || command.startsWith('rp')) {
 		commands.reportMember(arg, msg);
+	} else if (inModerationChannel && (command.startsWith('warntroll') || command.startsWith('trollwarn'))) {
+		commands.warnTroll(arg, msg);
 	} else if (inRoleSettingChannel && (command.startsWith('list'))) {
 		commands.getList(arg, msg);
 	} else if (command.startsWith('suggest')) {
