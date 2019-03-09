@@ -71,8 +71,8 @@ const InteractiveWelcome = {
     },
     getCountryStepMessage: function(isFrenchNative) {
         const example = isFrenchNative ? '`!country France`' : '`!country United States`';
-        const frenchMessage = 'Merci ! Maintenant, il faut que tu précises ton pays en tapant la commande `!country` suivie de ton pays. Par exemple: ' + example;
-        const englishMessage = 'Thank you! Now, you need to specify your country by typing the command `!country` followed by your country. For example: ' + example;
+        const frenchMessage = 'Merci ! Maintenant, il faut que tu précises ton pays en tapant la commande `!country` suivie de ton pays. Par exemple: ' + example + '. Tu as le droit - si tu ne veux pas dévoiler cette information - de taper la commande `!country Pays inconnu`.';
+        const englishMessage = 'Thank you! Now, you need to specify your country by typing the command `!country` followed by your country. For example: ' + example + '. You have the right to - if you do not want to give away that information - type the command `!country Unknown country`.';
 
         return isFrenchNative ? frenchMessage : '\n\n' + englishMessage + '\n\n' + frenchMessage;
     }

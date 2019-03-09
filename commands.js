@@ -111,6 +111,10 @@ commands.setNativeLanguage = (input, guildMessage) => {
 
     // role isn't in the list, or it's not a valid language role
     if (!role || !validRoles.includes(role)) {
+        console.log(`Language ${text} not recognized.`);
+        console.log(`!role = ${!role ? 'true' : 'false'}`);
+        console.log(`!validRoles.includes(role) = ${!validRoles.includes(role) ? 'true' : 'false'}`);
+
         guildMessage.channel.send(member.user + ': I don\'t recognize that language. I\'ve put in a request to add it.');
         role = noRole;
         requestTag(input, guildMessage, 'language');
@@ -261,6 +265,10 @@ commands.setCountry = (input, guildMessage) => {
 
     // role isn't in the list, or it's not a valid country role
     if (!role || !validRoles.includes(role)) {
+        console.log(`Country ${text} not recognized.`);
+        console.log(`!role = ${!role ? 'true' : 'false'}`);
+        console.log(`!validRoles.includes(role) = ${!validRoles.includes(role) ? 'true' : 'false'}`);
+
         guildMessage.channel.send(member.user + ': I don\'t recognize that country. I\'ve put in a request to add it.');
         requestTag(input, guildMessage, 'country');
         role = noRole;
@@ -446,7 +454,7 @@ const requestTag = (input, guildMessage, type) => {
 
     // don't let the user request more than 3 times
     if (REQUESTS.id.length <= REQUEST_LIMIT && !hasDuplicate) {
-        Channel.botChannel.send(type + ' tag request by ' + user + ': `' + text + '`');
+        Channel.botChannel.send(type + ' tag request by ' + user + ': `' + text + '`\n' + guildMessage.link);
     }
 };
 
