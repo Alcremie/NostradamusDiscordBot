@@ -454,7 +454,7 @@ const requestTag = (input, guildMessage, type) => {
 
     // don't let the user request more than 3 times
     if (REQUESTS.id.length <= REQUEST_LIMIT && !hasDuplicate) {
-        Channel.botChannel.send(type + ' tag request by ' + user + ': `' + text + '`\n' + guildMessage.link);
+        Channel.botChannel.send(type + ' tag request by ' + user + ': `' + text + '`\n' + guildMessage.url);
     }
 };
 

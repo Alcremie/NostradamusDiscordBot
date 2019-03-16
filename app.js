@@ -1,4 +1,4 @@
-const Discord = require("discord.js");
+const Discord = require('discord.js');
 const Config = require('./config');
 const Server = require('./server');
 const commands = require('./commands');
@@ -13,6 +13,8 @@ const semiBlacklist = require('./semi-blacklist.json').map(term => {
 
 global.bot = bot;
 
+require('./moderation-log');
+
 const crashRecover = (exception) => {
     console.log('I crashed. I CRASHED D: !');
     console.log('----');
@@ -25,7 +27,11 @@ const crashRecover = (exception) => {
             Channel.logInChannel('```' + exception + '```');
         });
 
-        bot.login(Config.BOT_TOKEN.live);
+        bot.login(Config.BOT_TOKEN.live).catch((exception) => {
+            setTimeout(() => {
+                crashRecover(exception);
+            }, 10000);
+        });
     });
 };
 
@@ -39,6 +45,7 @@ process.on('uncaughtException', (exception) => {
         crashRecover(exception);
     }
 });
+
 bot.on('error', crashRecover);
 
 bot.on("message", msg => {
