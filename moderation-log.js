@@ -51,7 +51,7 @@ const doLog = async () => {
         });
 
         for (const memberId in membersWhoLeft) {
-            if (membersWhoLeft.hasOwnProperty(memberId)) {
+            if (membersWhoLeft.hasOwnProperty(memberId) && membersWhoLeft[memberId] !== null) {
                 Channel.publicModLog.send(membersWhoLeft[memberId]);
             }
         }
