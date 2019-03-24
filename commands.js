@@ -19,7 +19,7 @@ commands.setFrenchLevel = (input, guildMessage) => {
 
     // empty argument
     if (!input) {
-        guildMessage.channel.send('You need to enter in a role.');
+        guildMessage.channel.send(guildMessage.author + ': You need to enter in a role.');
         return;
     }
 
@@ -92,7 +92,7 @@ commands.setNativeLanguage = (input, guildMessage) => {
 
     // empty argument
     if (!input) {
-        guildMessage.channel.send(member.user + ': You need to enter in a role.');
+        guildMessage.channel.send(guildMessage.author + ': You need to enter in a role.');
         return;
     }
 
@@ -174,7 +174,7 @@ commands.warnTroll = (input, guildMessage) => {
     let warnMessageEn = ``;
     let warnMessageFr = ``;
 
-    warnMessageEn += `trolling on the French server.`;
+    warnMessageEn += `trolling on the French server. `;
     warnMessageEn += `If you do not change your behavior, you will be banned. `;
     warnMessageEn += `If you think that this is a mistake, you can contact ${member}.`;
 
@@ -366,7 +366,7 @@ commands.warnSuggestion = (input, guildMessage) => {
 commands.dmSent = (input, DMMessage) => {
 	let user = DMMessage.author;
 
-    Channel.botChannel.send('New message to Nostradamus by ' + user + ': `' + input + '`');
+    Channel.botChannel.send('New message to Nostradamus by ' + user + ': \n\n' + input);
 };
 
 commands.addNewRole = (english, french, type, guildMessage) => {
