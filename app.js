@@ -10,6 +10,53 @@ const bot = new Discord.Client();
 const semiBlacklist = require('./semi-blacklist.json').map(term => {
     return `^${term.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&').replace(/%/g, '[^\\s]*').toLowerCase()}$`;
 });
+const memberMessageMap = new Discord.Collection();
+
+const deleteMessageIfTooOld = (message) => {
+    const tooOld = Date.now() - message.createdTimestamp >= 3 * 24 * 60 * 60 * 1000;
+
+    if (tooOld) {
+        message.delete().catch(console.error);
+    }
+
+    return tooOld;
+};
+
+const addMessageFromWelcomeToMap = (message) => {
+    if (message.author.bot === false) {
+        if (!memberMessageMap.has(message.author.id)) {
+            memberMessageMap.set(message.author.id, []);
+        }
+
+        memberMessageMap.set(
+            message.author.id,
+            memberMessageMap.get(message.author.id).concat(message.id)
+        );
+    }
+
+    let mentions = message.mentions.members.concat(message.mentions.users);
+    mentions.delete(message.author.id);
+
+    if (mentions.size > 0) {
+        mentions.map(user => {
+            if (!memberMessageMap.has(user.id)) {
+                memberMessageMap.set(user.id, []);
+            }
+
+            memberMessageMap.set(
+                user.id,
+                memberMessageMap.get(user.id).concat(message.id)
+            );
+        });
+    }
+};
+
+global.clearWelcomeMessagesForMember = (memberId) => {
+    if (memberMessageMap.has(memberId)) {
+        Channel.welcomeChannel.bulkDelete(memberMessageMap.get(memberId)).catch(console.error);
+        memberMessageMap.delete(memberId);
+    }
+};
 
 global.bot = bot;
 
@@ -49,6 +96,10 @@ process.on('uncaughtException', (exception) => {
 bot.on('error', crashRecover);
 
 bot.on("message", msg => {
+    if (msg.channel.id === Channel.welcomeChannel.id) {
+        addMessageFromWelcomeToMap(msg);
+    }
+
     if (msg.author.bot || (Config.ADMIN_MODE && !msg.member.user.roles.exists(userRole => userRole.id === Server.admin))) {
     	return;
     }
@@ -182,17 +233,40 @@ bot.on("guildMemberAdd", (member) => {
 	    Channel.logInChannel('The channel is this:' + Channel.welcomeChannel);
     }
 
-	Channel.welcomeChannel.send(`**Welcome to the official /r/French Discord, ${member.user}!\nTo be able to send messages in the other channels, please follow these instructions.**\n\n**Bienvenue sur le serveur Discord officiel de /r/French !\nPour pouvoir écrire dans les autres salons, veuillez suivre ces instructions.**`);
+    let frenchMessage = `**Bienvenue sur le serveur Discord officiel de /r/French, ${member.user} !\nPour pouvoir écrire dans les autres salons, veuillez suivre ces instructions.**`;
+    let englishMessage = `**Welcome to the official /r/French Discord, ${member.user}!\\nTo be able to send messages in the other channels, please follow these instructions.**`;
 
-    const frenchMessage = 'Pour commencer, il faut que tu précises ton niveau en français en tapant dans le chat la commande `!french` suivie de ton niveau. Les niveaux sont débutant, intermédiaire, avancé et natif. Par exemple: `!french intermédiaire`';
-    const englishMessage = 'For starters, you need to specify your proficiency in French by typing the command `!french` in the chat followed by your level. The available levels are beginner, intermediate, advanced and native. For example: `!french intermediate`';
+    frenchMessage += '\n\nPour commencer, il faut que tu précises ton niveau en français en tapant dans le chat la commande `!french` suivie de ton niveau. Les niveaux sont débutant, intermédiaire, avancé et natif. Par exemple: `!french intermédiaire`';
+    englishMessage += '\n\nFor starters, you need to specify your proficiency in French by typing the command `!french` in the chat followed by your level. The available levels are beginner, intermediate, advanced and native. For example: `!french intermediate`';
 
     Channel.welcomeChannel.send(englishMessage + '\n\n' + frenchMessage);
 });
 
-bot.on('ready', () => {
+bot.on('guildMemberRemove', async (member) => {
+    global.clearWelcomeMessagesForMember(member.user.id);
+});
+
+bot.on('ready', async () => {
     Channel.retrieveChannels(bot);
     Channel.logInChannel('I am ready!');
+
+    const welcomeMessages = await Channel.welcomeChannel.fetchMessages();
+
+    welcomeMessages.map(message => {
+        if (!deleteMessageIfTooOld(message)) {
+            addMessageFromWelcomeToMap(message);
+        }
+    });
+
+    memberMessageMap.map(messages => Array.from(new Set(messages)));
+
+    setInterval(async () => {
+        const welcomeMessages = await Channel.welcomeChannel.fetchMessages();
+
+        welcomeMessages.map(message => {
+            deleteMessageIfTooOld(message);
+        });
+    }, 60 * 60);
 });
 
 bot.on('disconnect', () => {

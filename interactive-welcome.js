@@ -19,6 +19,8 @@ const InteractiveWelcome = {
         }
 
         if (canNowPost) {
+            global.clearWelcomeMessagesForMember(member.user.id);
+
             if (User.isFrenchNative(member)) {
                 reply += '\nTu peux maintenant poster sur les autres canaux :D ! Si tu te rends compte que ce n\'est pas le cas, appelle un modérateur.';
                 reply += '\nSi tu te sens perdu, tu peux dire bonjour dans <#254498368263290883>.'
@@ -28,9 +30,11 @@ const InteractiveWelcome = {
             }
 
             reply.trim();
-        }
 
-        message.reply(reply);
+            member.user.send(reply);
+        } else {
+            message.reply(reply);
+        }
     },
     getNextStepsForMember: function (member) {
         let nextStep = null;

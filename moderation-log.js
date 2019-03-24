@@ -23,7 +23,7 @@ const doLog = async () => {
         auditLogs.entries.filter(entry => {
             const userTarget = entry.targetType === 'USER';
             const kickOrBan = entry.action === 'MEMBER_KICK' || entry.action === 'MEMBER_BAN_ADD';
-            const inList = memberIds.indexOf(entry.target.id) > -1;
+            const inList = entry.target !== undefined && memberIds.indexOf(entry.target.id) > -1;
 
             return userTarget && kickOrBan && inList;
         }).map(entry => {
