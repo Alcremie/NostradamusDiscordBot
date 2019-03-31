@@ -19,7 +19,9 @@ const InteractiveWelcome = {
         }
 
         if (canNowPost) {
-            global.clearWelcomeMessagesForMember(member.user.id);
+            setTimeout(() => {
+                global.clearWelcomeMessagesForMember(member.user.id);
+            }, 5000);
 
             if (User.isFrenchNative(member)) {
                 reply += '\nTu peux maintenant poster sur les autres canaux :D ! Si tu te rends compte que ce n\'est pas le cas, appelle un modérateur.';
