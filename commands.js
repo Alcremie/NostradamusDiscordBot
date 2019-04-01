@@ -360,6 +360,16 @@ commands.warnAnonymous = (input, guildMessage) => {
 	user.send('To make an anonymous request, please reply to this message using the following command:```!anonymous yourrequesthere```').catch(console.error);
 };
 
+commands.modList = (guildMessage) => {
+	let modList = guildMessage.guild.members.filter(
+	    member => member.roles.some(role => role.name === 'Modérateur')
+    ).map(
+        member => (member.nickname !== null ? member.nickname : member.user.username) + '#' + member.user.discriminator
+    );
+
+	guildMessage.reply(`there are currently ${modList.length} moderators:\n\n${modList.join('\n')}`);
+};
+
 commands.dmSent = (input, DMMessage) => {
 	let user = DMMessage.author;
 

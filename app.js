@@ -174,6 +174,8 @@ bot.on("message", msg => {
 		commands.getList(arg, msg);
 	} else if (command.startsWith('anonymous')) {
 		commands.warnAnonymous(arg, msg);
+	} else if (command.startsWith('modlist')) {
+		commands.modList(msg);
 	} else if (command.startsWith('tag')) {
 		// for admins only:
 		if (User.hasModRole(msg.member) && msg.mentions) {
