@@ -25,7 +25,7 @@ const InteractiveWelcome = {
 
             if (User.isFrenchNative(member)) {
                 reply += '\nTu peux maintenant poster sur les autres canaux :D ! Si tu te rends compte que ce n\'est pas le cas, appelle un modérateur.';
-                reply += '\nSi tu te sens perdu, tu peux dire bonjour dans <#254498368263290883>.'
+                reply += '\nSi tu te sens perdu, tu peux dire bonjour dans <#254498368263290883>.';
             } else {
                 reply += '\nYou can now post on the other channels :D ! If that\'s not the case, call a moderator. // Tu peux maintenant poster sur les autres canaux :D ! Si tu te rends compte que ce n\'est pas le cas, contacte un modérateur.';
                 reply += '\nIf you feel lost, you can say hi in <#455779417290178560>. // Si tu te sens perdu, tu peux dire bonjour dans <#455779417290178560>.';

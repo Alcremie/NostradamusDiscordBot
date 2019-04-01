@@ -148,8 +148,8 @@ bot.on("message", msg => {
     arg = arg.trim();
 
 	if (msg.channel.type === 'dm') {
-		if (command.startsWith('suggest')) {
-			commands.addSuggestion(arg, msg);
+		if (command.startsWith('anonymous')) {
+			commands.addAnonymous(arg, msg);
 		}
 
 		return;
@@ -172,8 +172,8 @@ bot.on("message", msg => {
 		commands.warnTroll(arg, msg);
 	} else if (inRoleSettingChannel && (command.startsWith('list'))) {
 		commands.getList(arg, msg);
-	} else if (command.startsWith('suggest')) {
-		commands.warnSuggestion(arg, msg);
+	} else if (command.startsWith('anonymous')) {
+		commands.warnAnonymous(arg, msg);
 	} else if (command.startsWith('tag')) {
 		// for admins only:
 		if (User.hasModRole(msg.member) && msg.mentions) {

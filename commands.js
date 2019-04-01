@@ -345,22 +345,19 @@ commands.loadRoles = (guildMessage) => {
     }
 };
 
-commands.addSuggestion = (input, DMMessage) => {
+commands.addAnonymous = (input, DMMessage) => {
 	let user = DMMessage.author;
 	
-	user.send('Thank you for your suggestion. Your suggestion will be considered by the mod team.')
- 		.catch(console.error);
-
-    Channel.botChannel.send('Suggestion by <@' + user.id + '>: `' + input + '`');
+	user.send('Thank you for your request. It will be considered by the mod team.').catch(console.error);
+    Channel.botChannel.send('Anonymous request: \n\n' + input);
 };
 
-commands.warnSuggestion = (input, guildMessage) => {
+commands.warnAnonymous = (input, guildMessage) => {
 	let user = guildMessage.member.user;
 
-	guildMessage.channel.send(user + ': Please check your private messages for more information on making suggestions.');
+	guildMessage.channel.send(user + ': Please check your private messages for more information on making anonymous requests.');
 
-	user.send('To make a suggestion, please reply to this message using the following command:```!suggest yoursuggestionhere```')
- 		.catch(console.error);
+	user.send('To make an anonymous request, please reply to this message using the following command:```!anonymous yourrequesthere```').catch(console.error);
 };
 
 commands.dmSent = (input, DMMessage) => {
