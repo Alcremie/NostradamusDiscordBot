@@ -6,7 +6,7 @@ const User = require('./user');
 const Channel = require('./channel');
 const Spreadsheets = require('./spreadsheets');
 
-const bot = new Discord.Client();
+let bot = new Discord.Client();
 const semiBlacklist = require('./semi-blacklist.json').map(term => {
     return `^${term.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&').replace(/%/g, '[^\\s]*').toLowerCase()}$`;
 });
@@ -69,17 +69,22 @@ const crashRecover = (exception) => {
     console.log('----');
 
     bot.destroy().then(() => {
-        bot.once('ready', () => {
-            Channel.logInChannel('Just recovered from a crash, folks. Not dead yet! Oh, wanna know about what happened? Well, if you can understand it, read the message below.');
-            Channel.logInChannel('```' + exception + '```');
-        });
+        setTimeout(() => {
+            bot = new Discord.Client();
+            global.bot = bot;
 
-        bot.login(Config.BOT_TOKEN.live).catch((exception) => {
-            setTimeout(() => {
-                crashRecover(exception);
-            }, 10000);
-        });
-    });
+            bot.once('ready', () => {
+                Channel.logInChannel('Just recovered from a crash, folks. Not dead yet! Oh, wanna know about what happened? Well, if you can understand it, read the message below.');
+                Channel.logInChannel('```' + exception + '```');
+            });
+
+            bot.login(Config.BOT_TOKEN.live).catch((exception) => {
+                setTimeout(() => {
+                    crashRecover(exception);
+                }, 10000);
+            });
+        }, 3000);
+    }).catch(console.error);
 };
 
 process.on('uncaughtException', (exception) => {
@@ -94,6 +99,7 @@ process.on('uncaughtException', (exception) => {
 });
 
 bot.on('error', crashRecover);
+bot.on('debug', console.info);
 
 bot.on("message", msg => {
     if (msg.channel.id === Channel.welcomeChannel.id) {
@@ -236,7 +242,7 @@ bot.on("guildMemberAdd", (member) => {
     }
 
     let frenchMessage = `**Bienvenue sur le serveur Discord officiel de /r/French, ${member.user} !\nPour pouvoir écrire dans les autres salons, veuillez suivre ces instructions.**`;
-    let englishMessage = `**Welcome to the official /r/French Discord, ${member.user}!\\nTo be able to send messages in the other channels, please follow these instructions.**`;
+    let englishMessage = `**Welcome to the official /r/French Discord, ${member.user}!\nTo be able to send messages in the other channels, please follow these instructions.**`;
 
     frenchMessage += '\n\nPour commencer, il faut que tu précises ton niveau en français en tapant dans le chat la commande `!french` suivie de ton niveau. Les niveaux sont débutant, intermédiaire, avancé et natif. Par exemple: `!french intermédiaire`';
     englishMessage += '\n\nFor starters, you need to specify your proficiency in French by typing the command `!french` in the chat followed by your level. The available levels are beginner, intermediate, advanced and native. For example: `!french intermediate`';
