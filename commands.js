@@ -362,7 +362,7 @@ commands.warnAnonymous = (input, guildMessage) => {
 
 commands.modList = (guildMessage) => {
 	let modList = guildMessage.guild.members.filter(
-	    member => member.roles.some(role => role.name === 'Modérateur')
+	    member => member.roles.some(role => role.id === '254476057455886337')
     ).map(
         member => (member.nickname !== null ? member.nickname : member.user.username) + '#' + member.user.discriminator
     );
