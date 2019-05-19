@@ -170,7 +170,7 @@ commands.warnTroll = (input, guildMessage) => {
     const member = guildMessage.member;
     let {certain, foundMembers} = User.findFromMessage(input, guildMessage);
     let answer = '';
-    let mention = '<@ID>';
+    let userId = 'ID';
     let warnMessageEn = ``;
     let warnMessageFr = ``;
 
@@ -187,14 +187,14 @@ commands.warnTroll = (input, guildMessage) => {
             answer = `I'm not sure about who you want to warn, but guess it's ${foundMembers[0]}. If that's not correct, please change the ID in the command below accordingly.`;
         }
 
-        mention = `<@${foundMembers[0].user.id}>`;
+        userId = foundMembers[0].user.id;
     } else {
         answer += `I didn't understand who you wanted to warn, so I will just write "<@ID>" in the command below.`
     }
 
     answer += `\n\nPlease copy one of the commands below, depending on the warned member's language, and send it in the ${Channel.modLogChannel} channel.\n`;
-    answer += `\`\`\`?warn ${mention} ${warnMessageEn}\`\`\``;
-    answer += `\`\`\`?warn ${mention} ${warnMessageFr}\`\`\``;
+    answer += `\`\`\`rg!warn ${userId} [DM] ${warnMessageEn}\`\`\``;
+    answer += `\`\`\`rg!warn ${userId} [DM] ${warnMessageFr}\`\`\``;
 
     guildMessage.reply(answer);
 };
@@ -361,13 +361,23 @@ commands.warnAnonymous = (input, guildMessage) => {
 };
 
 commands.modList = (guildMessage) => {
-	let modList = guildMessage.guild.members.filter(
+	let list = guildMessage.guild.members.filter(
 	    member => member.roles.some(role => role.id === '254476057455886337')
     ).map(
         member => (member.nickname !== null ? member.nickname : member.user.username) + '#' + member.user.discriminator
     );
 
-	guildMessage.reply(`there are currently ${modList.length} moderators:\n\n${modList.join('\n')}`);
+	guildMessage.reply(`there are currently ${list.length} moderators:\n\n${list.join('\n')}`);
+};
+
+commands.comite = (guildMessage) => {
+	let list = guildMessage.guild.members.filter(
+	    member => member.roles.some(role => role.id === '578751520498122779')
+    ).map(
+        member => (member.nickname !== null ? member.nickname : member.user.username) + '#' + member.user.discriminator
+    );
+
+	guildMessage.reply(`there are currently ${list.length} members in the Comité de décision:\n\n${list.join('\n')}`);
 };
 
 commands.dmSent = (input, DMMessage) => {
