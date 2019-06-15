@@ -2,6 +2,3 @@
 *.iml
 node_modules
 config.js
-credentials.json
-token.json
-deploy.sh
