@@ -9,8 +9,8 @@
   "author": "toffafy",
   "license": "MIT",
   "dependencies": {
-    "discord.js": "^11.4.2",
+    "discord.js": "^11.5.1",
     "googleapis": "^27.0.0",
-    "mysql": "^2.16.0"
+    "mysql": "^2.17.1"
   }
 }
