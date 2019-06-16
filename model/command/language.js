@@ -36,7 +36,7 @@ module.exports = async (message, args) => {
         }
 
         member.addRole(role).then(member => {
-            MemberRolesFlow.rolesUpdated(message, member);
+            MemberRolesFlow.answerWithNextStep(message, member);
         });
     }
 };
