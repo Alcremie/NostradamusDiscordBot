@@ -1,4 +1,4 @@
 .idea
 *.iml
 node_modules
-config.js
+config.json

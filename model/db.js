@@ -1,8 +1,8 @@
-const mysql = require('mysql');
-const config = require('../config');
+const MySQL = require('mysql');
+const Config = require('../config.json');
 
 // http://stackoverflow.com/questions/18496540/node-js-mysql-connection-pooling
-const pool = mysql.createPool(config.db);
+const pool = MySQL.createPool(Config.db);
 
 const connection = {
     query: function () {

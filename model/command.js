@@ -1,7 +1,11 @@
 const fs = require('fs');
-const Config = require('../config');
+const Config = require('../config.json');
 const commandAliases = {
-    'reboot': 'reload'
+    'reboot': 'reload',
+    'level': 'french',
+    'pays': 'country',
+    'langue': 'language',
+    'langage': 'language',
 };
 
 const Command = {

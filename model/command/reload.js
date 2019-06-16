@@ -5,17 +5,11 @@ const Guild = require('../guild');
  * @param {Message} message
  */
 module.exports = async (message) => {
-    let member;
+    const member = Guild.getMemberFromMessage(message);
 
-    if (message.guild === null) {
-        member = Guild.discordGuild.member(message.author);
-
-        if (member === null) {
-            message.reply('sorry, you do not seem to be on the server.');
-            return;
-        }
-    } else {
-        member = message.member;
+    if (member === null) {
+        message.reply('sorry, you do not seem to be on the server.');
+        return;
     }
 
     if (Guild.isMemberMod(member)) {

@@ -36,7 +36,7 @@ const mainProcess = () => {
 
 const botProcess = () => {
     const Discord = require('discord.js');
-    const Config = require('./config');
+    const Config = require('./config.json');
     const Guild = require('./model/guild');
     const Language = require('./model/language');
     const Country = require('./model/country');
