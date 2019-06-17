@@ -53,7 +53,7 @@ module.exports = async (message, args) => {
     const rolesToRemove = member.roles.array().filter(
         role => Object.values(Guild.frenchLevelRoles).indexOf(role.name) > -1
     );
-    const level = args.join(' ').toLowerCase();
+    const level = args.join(' ').toLowerCase().trim();
 
     if (member === null) {
         message.reply('sorry, you do not seem to be on the server.');
@@ -70,5 +70,17 @@ module.exports = async (message, args) => {
         member.addRole(role).then((member) => {
             MemberRolesFlow.answerWithNextStep(message, member);
         });
+    } else {
+        let reply = '\n';
+
+        if (levels === '') {
+            reply += '\nYou need to enter in a level. The command `!french` alone does not tell me which level you are. For example: `!french beginner`';
+            reply += '\nIl faut que tu spécifies un niveau. La commande `!french` seule ne me permet pas de savoir quel est ton niveau en français. Par exemple : `!french débutant`';
+        } else {
+            reply += '\nThat level is not valid. Maybe you mispelled something? The levels are `beginner`, `intermediate`, `advanced` and `native`.';
+            reply += '\nCe niveau n\'est pas valide. Peut-être que tu as fait une faute de frappe ? Les différents niveaux sont `débutant`, `intermédiaire`, `avancé` et `natif`.';
+        }
+
+        message.reply(reply);
     }
 };
