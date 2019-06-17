@@ -12,6 +12,10 @@ module.exports = async (message) => {
 
     const member = message.member;
 
-    Guild.botChannel.send(`${member} semble avoir besoin d'aide dans <#${Config.channels.welcome}>.\n${message.url}`);
-    MemberRolesFlow.answerWithNextStep(message, member);
+    if (!member.roles.has(Config.roles.officialMember)) {
+        Guild.botChannel.send(
+            `${member} semble avoir besoin d'aide dans <#${Config.channels.welcome}>.\n${message.url}`
+        );
+        MemberRolesFlow.answerWithNextStep(message, member);
+    }
 };
