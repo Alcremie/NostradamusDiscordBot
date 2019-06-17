@@ -9,6 +9,7 @@ const commandAliases = {
     'langage': 'language',
     'rp': 'report',
     'rep': 'report',
+    'miniclass': 'mini-class',
 };
 
 const Command = {
