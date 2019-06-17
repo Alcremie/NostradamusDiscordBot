@@ -1,0 +1,33 @@
+{
+    "token": "",
+    "prefix": "!",
+    "db": {
+        "host": "",
+        "user": "",
+        "password": "",
+        "database": "",
+		"charset": "utf8mb4_general_ci"
+    },
+    "guild": "",
+    "roles": {
+        "mod": "",
+        "officialMember": "",
+        "miniClass": "",
+        "comitee": "",
+        "native": "",
+        "advanced": "",
+        "intermediate": "",
+        "beginner": "",
+        "noLanguage": "",
+        "noCountry": ""
+    },
+    "channels": {
+        "welcome": "",
+        "publicModLog": "",
+        "modLog": "",
+        "automod": "",
+        "bot": "",
+        "frenchBeginner": "",
+        "french": ""
+    }
+}
