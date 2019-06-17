@@ -1,7 +1,10 @@
 const Config = require('../config.json');
+const Logger = require('@elian-wonhalf/pretty-logger');
 const Language = require('./language');
 const Country = require('./country');
 const Discord = require('discord.js');
+
+const SECONDS_IN_DAY = 24 * 60 * 60 * 1000;
 
 const Guild = {
     /** {Object} */
@@ -20,6 +23,9 @@ const Guild = {
         beginner: 'Débutant',
     },
 
+    /** {Discord.Collection} */
+    memberMessageMap: new Discord.Collection(),
+
     /** {Guild} */
     discordGuild: null,
 
@@ -27,16 +33,39 @@ const Guild = {
     welcomeChannel: null,
 
     /** {TextChannel} */
+    publicModLogChannel: null,
+
+    /** {TextChannel} */
+    modLogChannel: null,
+
+    /** {TextChannel} */
+    botChannel: null,
+
+    /** {TextChannel} */
     automodChannel: null,
 
     /**
      * @param {Client} bot
      */
-    init: (bot) => {
+    init: async (bot) => {
         Guild.discordGuild = bot.guilds.find(guild => guild.id === Config.guild);
         Guild.welcomeChannel = Guild.discordGuild.channels.find(channel => channel.id === Config.channels.welcome);
+        Guild.publicModLogChannel = Guild.discordGuild.channels.find(channel => channel.id === Config.channels.publicModLog);
+        Guild.modLogChannel = Guild.discordGuild.channels.find(channel => channel.id === Config.channels.modLog);
         Guild.botChannel = Guild.discordGuild.channels.find(channel => channel.id === Config.channels.bot);
         Guild.automodChannel = Guild.discordGuild.channels.find(channel => channel.id === Config.channels.automod);
+
+        // First delete old welcome messages
+        await Guild.deleteOldWelcomeMessages();
+
+        // Then add the ones that were not deleted to the map
+        const welcomeMessages = await Guild.welcomeChannel.fetchMessages();
+        welcomeMessages.map(message => {
+            Guild.addMessageFromWelcomeToMap(message);
+        });
+
+        // So that if the member gets validated or leaves, we can delete all the related messages easily
+        setInterval(Guild.deleteOldWelcomeMessages, 60 * 60);
     },
 
     /**
@@ -121,6 +150,66 @@ const Guild = {
             )
             .setColor(0x00FF00)
             .setDescription(message.content);
+    },
+
+    /**
+     * @param {Message} message
+     */
+    addMessageFromWelcomeToMap: (message) => {
+        // If the author is not a bot, save this message as related to the author
+        if (message.author.bot === false) {
+            if (!Guild.memberMessageMap.has(message.author.id)) {
+                Guild.memberMessageMap.set(message.author.id, []);
+            }
+
+            Guild.memberMessageMap.set(
+                message.author.id,
+                Guild.memberMessageMap.get(message.author.id).concat(message.id)
+            );
+        }
+
+        // Then, take every mention and remove the author from them
+        let mentions = message.mentions.members.concat(message.mentions.users);
+        mentions.delete(message.author.id);
+
+        // And consider this message to be related to the members mentioned
+        if (mentions.size > 0) {
+            mentions.map(user => {
+                if (!Guild.memberMessageMap.has(user.id)) {
+                    Guild.memberMessageMap.set(user.id, []);
+                }
+
+                Guild.memberMessageMap.set(
+                    user.id,
+                    Guild.memberMessageMap.get(user.id).concat(message.id)
+                );
+            });
+        }
+    },
+
+    /**
+     * @returns {Promise.<void>}
+     */
+    deleteOldWelcomeMessages: async () => {
+        const welcomeMessages = await Guild.welcomeChannel.fetchMessages();
+
+        welcomeMessages.map(message => {
+            const tooOld = Date.now() - message.createdTimestamp >= 3 * SECONDS_IN_DAY;
+
+            if (tooOld) {
+                message.delete().catch(Logger.exception);
+            }
+        });
+    },
+
+    /**
+     * @param {GuildMember} member
+     */
+    clearWelcomeMessagesForMember: (member) => {
+        if (Guild.memberMessageMap.has(member.user.id)) {
+            Guild.welcomeChannel.bulkDelete(Guild.memberMessageMap.get(member.user.id)).catch(Logger.exception);
+            Guild.memberMessageMap.delete(member.user.id);
+        }
     }
 };
 

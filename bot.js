@@ -42,8 +42,30 @@ const botProcess = () => {
     const Country = require('./model/country');
     const Command = require('./model/command');
     const SemiBlacklist = require('./model/semi-blacklist');
+    const ModerationLog = require('./model/moderation-log');
 
     let bot = new Discord.Client();
+
+    /**
+     * @param {GuildMember} member
+     */
+    bot.on('guildMemberAdd', (member) => {
+        let englishMessage = `**Welcome to the official /r/French Discord, ${member.user}!\nTo be able to send messages in the other channels, please follow these instructions.**`;
+        let frenchMessage = `**Bienvenue sur le serveur Discord officiel de /r/French, ${member.user} !\nPour pouvoir écrire dans les autres salons, veuillez suivre ces instructions.**`;
+
+        englishMessage += '\n\nFor starters, you need to specify your proficiency in French by typing the command `!french` in the chat followed by your level. The available levels are `beginner`, `intermediate`, `advanced` and `native`. For example: `!french intermediate`';
+        frenchMessage += '\n\nPour commencer, il faut que tu précises ton niveau en français en tapant dans le chat la commande `!french` suivie de ton niveau. Les niveaux sont `débutant`, `intermédiaire`, `avancé` et `natif`. Par exemple: `!french intermédiaire`';
+
+        Guild.welcomeChannel.send(englishMessage + '\n\n' + frenchMessage);
+    });
+
+    /**
+     * @param {GuildMember} member
+     */
+    bot.on('guildMemberRemove', async (member) => {
+        Guild.clearWelcomeMessagesForMember(member);
+        ModerationLog.processMemberRemove(member);
+    });
 
     /**
      * @param {Message} message
@@ -60,7 +82,7 @@ const botProcess = () => {
 
         Logger.info('Syncing guilds...');
         bot.syncGuilds();
-        Guild.init(bot);
+        await Guild.init(bot);
         Logger.info('Guilds synced. Serving in ' + Guild.discordGuild.name);
 
         Logger.info('--------');

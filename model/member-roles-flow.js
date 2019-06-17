@@ -20,8 +20,7 @@ const MemberRolesFlow = {
             const callback = 'get' + nextStep.substr(0, 1).toUpperCase() + nextStep.substr(1) + 'StepMessage';
             message.reply(MemberRolesFlow[callback](Guild.isMemberFrenchNative(member)));
         } else {
-            // @TODO Clear welcome messages
-
+            setTimeout(() => Guild.clearWelcomeMessagesForMember(member), 5000);
             member.addRole(Config.roles.officialMember);
 
             if (Guild.isMemberFrenchNative(member)) {
