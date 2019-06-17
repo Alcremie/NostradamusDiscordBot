@@ -16,6 +16,7 @@ const commandAliases = {
     'comité': 'comitee',
     'addlanguage': 'add-language',
     'addcountry': 'add-country',
+    'setavatar': 'set-avatar',
 };
 
 const Command = {

@@ -46,6 +46,7 @@ const botProcess = () => {
     const DM = require('./model/dm');
 
     let bot = new Discord.Client();
+    global.bot = bot;
 
     /**
      * @param {GuildMember} member
