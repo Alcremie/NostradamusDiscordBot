@@ -12,6 +12,8 @@ const commandAliases = {
     'miniclass': 'mini-class',
     'loadroles': 'load-roles',
     'modlist': 'mod-list',
+    'comite': 'comitee',
+    'comité': 'comitee',
 };
 
 const Command = {
