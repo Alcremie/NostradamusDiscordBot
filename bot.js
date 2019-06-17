@@ -86,6 +86,10 @@ const botProcess = () => {
     bot.on('message', (message) => {
         SemiBlacklist.parseMessage(message);
 
+        if (message.channel.id === Config.channels.welcome) {
+            Guild.addMessageFromWelcomeToMap(message);
+        }
+
         if (!message.author.bot) {
             const isCommand = Command.parseMessage(message);
             DM.parseMessage(message, isCommand);
