@@ -1,6 +1,7 @@
 const Config = require('../config.json');
 const Language = require('./language');
 const Country = require('./country');
+const Discord = require('discord.js');
 
 const Guild = {
     /** {Object} */
@@ -25,6 +26,9 @@ const Guild = {
     /** {TextChannel} */
     welcomeChannel: null,
 
+    /** {TextChannel} */
+    automodChannel: null,
+
     /**
      * @param {Client} bot
      */
@@ -32,6 +36,7 @@ const Guild = {
         Guild.discordGuild = bot.guilds.find(guild => guild.id === Config.guild);
         Guild.welcomeChannel = Guild.discordGuild.channels.find(channel => channel.id === Config.channels.welcome);
         Guild.botChannel = Guild.discordGuild.channels.find(channel => channel.id === Config.channels.bot);
+        Guild.automodChannel = Guild.discordGuild.channels.find(channel => channel.id === Config.channels.automod);
     },
 
     /**
@@ -99,6 +104,23 @@ const Guild = {
      */
     getRoleByName: (roleName) => {
         return Guild.discordGuild.roles.find(role => role.name === roleName);
+    },
+
+    /**
+     * @param {Message} message
+     * @returns {Discord.RichEmbed}
+     */
+    messageToEmbed: (message) => {
+        const member = message.member;
+        const suffix = member !== null && member.nickname !== null ? ` aka ${member.nickname}` : '';
+
+        return new Discord.RichEmbed()
+            .setAuthor(
+                `${message.author.username}#${message.author.discriminator}${suffix}`,
+                message.author.displayAvatarURL
+            )
+            .setColor(0x00FF00)
+            .setDescription(message.content);
     }
 };
 

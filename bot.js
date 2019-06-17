@@ -41,6 +41,7 @@ const botProcess = () => {
     const Language = require('./model/language');
     const Country = require('./model/country');
     const Command = require('./model/command');
+    const SemiBlacklist = require('./model/semi-blacklist');
 
     let bot = new Discord.Client();
 
@@ -49,6 +50,7 @@ const botProcess = () => {
      */
     bot.on('message', (message) => {
         Command.parseMessage(message);
+        SemiBlacklist.parseMessage(message);
     });
 
     bot.on('ready', async () => {
