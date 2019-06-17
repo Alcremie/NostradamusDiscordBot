@@ -43,6 +43,7 @@ const botProcess = () => {
     const Command = require('./model/command');
     const SemiBlacklist = require('./model/semi-blacklist');
     const ModerationLog = require('./model/moderation-log');
+    const DM = require('./model/dm');
 
     let bot = new Discord.Client();
 
@@ -71,8 +72,9 @@ const botProcess = () => {
      * @param {Message} message
      */
     bot.on('message', (message) => {
-        Command.parseMessage(message);
+        const isCommand = Command.parseMessage(message);
         SemiBlacklist.parseMessage(message);
+        DM.parseMessage(message, isCommand);
     });
 
     bot.on('ready', async () => {

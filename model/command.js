@@ -19,13 +19,18 @@ const commandAliases = {
 const Command = {
     /**
      * @param {Message} message
+     * @returns {boolean}
      */
-    parseMessage: async (message) => {
+    parseMessage: (message) => {
+        let isCommand = false;
+
         if (message.content.toLowerCase().substr(0, Config.prefix.length) === Config.prefix) {
             let content = message.content.substr(Config.prefix.length).trim().split(' ');
             const command = content.shift().toLowerCase();
 
             if (Command.isValid(command)) {
+                isCommand = true;
+
                 if (commandAliases.hasOwnProperty(command)) {
                     (require('./command/' + commandAliases[command].toLowerCase() + '.js'))(message, content);
                 } else {
@@ -33,6 +38,8 @@ const Command = {
                 }
             }
         }
+
+        return isCommand;
     },
 
     /**
