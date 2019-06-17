@@ -18,6 +18,22 @@ const Country = {
     },
 
     /**
+     * @param {string} english
+     * @param {string} french
+     * @returns {Promise}
+     */
+    add: (english, french) => {
+        return new Promise((resolve, reject) => {
+            Country.list.push({friendly: english, role: french});
+
+            db.query('SET NAMES utf8');
+            db.query(`INSERT INTO countries (friendly, role) VALUES (?, ?)`, [english, french], (error) => {
+                error ? reject(error) : resolve();
+            });
+        });
+    },
+
+    /**
      * @returns {Array}
      */
     getRoleNameList: () => {

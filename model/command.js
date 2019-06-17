@@ -14,6 +14,8 @@ const commandAliases = {
     'modlist': 'mod-list',
     'comite': 'comitee',
     'comité': 'comitee',
+    'addlanguage': 'add-language',
+    'addcountry': 'add-country',
 };
 
 const Command = {
