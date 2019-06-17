@@ -84,6 +84,10 @@ const Guild = {
         return member;
     },
 
+    createRole: (name) => {
+        return Guild.discordGuild.createRole({name: name, permissions: []});
+    },
+
     /**
      * @param {GuildMember} member
      * @returns {boolean}

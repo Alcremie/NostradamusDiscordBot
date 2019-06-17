@@ -10,6 +10,7 @@ const commandAliases = {
     'rp': 'report',
     'rep': 'report',
     'miniclass': 'mini-class',
+    'loadroles': 'load-roles',
 };
 
 const Command = {
