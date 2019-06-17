@@ -2,7 +2,9 @@ const Guild = require('./guild');
 
 const SemiBlacklist = {
     /** {Array} */
-    words: require('../semi-blacklist.json'),
+    words: require('../semi-blacklist.json').map(term => {
+        return `^${term.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&').replace(/%/g, '[^\\s]*').toLowerCase()}$`;
+    }),
 
     /**
      * @param {Message} message
