@@ -23,7 +23,7 @@ module.exports = async (message, args) => {
         let role = Guild.getRoleByName(roleName);
 
         if (role === null) {
-            Guild.botChannel.send(`Country tag request by ${member.user.username}: ${country}\n${message.url}`);
+            Guild.botChannel.send(`Country tag request by ${member}: ${country}\n${message.url}`);
             role = Config.roles.noCountry;
         }
 

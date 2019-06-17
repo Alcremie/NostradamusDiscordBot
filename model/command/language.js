@@ -23,7 +23,7 @@ module.exports = async (message, args) => {
         let role = Guild.getRoleByName(roleName);
 
         if (role === null) {
-            Guild.botChannel.send(`Language tag request by ${member.user.username}: ${language}\n${message.url}`);
+            Guild.botChannel.send(`Language tag request by ${member}: ${language}\n${message.url}`);
             role = Config.roles.noLanguage;
         } else if (role.id === Config.roles.native) {
             rolesToRemove = rolesToRemove.concat(member.roles.array().filter(
