@@ -10,8 +10,9 @@ const ModerationLog = {
 
     processMemberRemove: (member) => {
         const nowDate = new Date();
+        const nowTime = nowDate.getTime();
         const lastLogDateIsNull = ModerationLog.memberLeftDate === null;
-        const elapsedTimeSinceLastLog = nowDate.getTime() - ModerationLog.memberLeftDate.getTime();
+        const elapsedTimeSinceLastLog = lastLogDateIsNull ? 0 : nowTime - ModerationLog.memberLeftDate.getTime();
         const canLogNow = lastLogDateIsNull || elapsedTimeSinceLastLog >= ModerationLog.auditLogFetchInterval;
 
         ModerationLog.membersWhoLeft[member.id] = null;
