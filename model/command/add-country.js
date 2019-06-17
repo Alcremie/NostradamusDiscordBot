@@ -15,6 +15,8 @@ module.exports = async (message, args) => {
     }
 
     if (Guild.isMemberMod(member)) {
+        args = args.join(' ').split('|');
+
         const english = args[0];
         const french = args[1];
 
