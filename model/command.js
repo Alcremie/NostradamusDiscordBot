@@ -3,9 +3,12 @@ const Config = require('../config.json');
 const commandAliases = {
     'reboot': 'reload',
     'level': 'french',
+    'rank': 'french',
     'pays': 'country',
     'langue': 'language',
     'langage': 'language',
+    'rp': 'report',
+    'rep': 'report',
 };
 
 const Command = {

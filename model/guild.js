@@ -210,6 +210,44 @@ const Guild = {
             Guild.welcomeChannel.bulkDelete(Guild.memberMessageMap.get(member.user.id)).catch(Logger.exception);
             Guild.memberMessageMap.delete(member.user.id);
         }
+    },
+
+    /**
+     * @param {Message} message
+     * @returns {{certain: boolean, foundMembers: Array}}
+     */
+    findDesignatedMemberInMessage: (message) => {
+        let foundMembers = [];
+        let certain = true;
+
+        if (message.mentions.members.array().length > 0) {
+            foundMembers = message.mentions.members.array();
+        } else if (message.content.match(/[0-9]{18}/) !== null) {
+            const ids = message.content.match(/[0-9]{18}/);
+
+            ids.map(id => {
+                if (message.guild.members.has(id)) {
+                    foundMembers.push(message.guild.members.get(id));
+                }
+            });
+        } else {
+            const memberList = message.guild.members.array();
+
+            certain = false;
+            memberList.map(member => {
+                const nickname = member.nickname !== null ? `${member.nickname.toLowerCase()}#${member.user.discriminator}` : '';
+                const username = `${member.user.username.toLowerCase()}#${member.user.discriminator}`;
+
+                if (nickname.indexOf(message.content) > -1 || username.indexOf(message.content) > -1) {
+                    foundMembers.push(member);
+                }
+            });
+        }
+
+        return {
+            certain,
+            foundMembers
+        };
     }
 };
 
