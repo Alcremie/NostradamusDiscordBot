@@ -3,6 +3,8 @@ const Logger = require('@elian-wonhalf/pretty-logger');
 const mainProcess = () => {
     const ChildProcess = require('child_process');
 
+    process.on('uncaughtException', Logger.exception);
+
     Logger.info('Spawning bot subprocess...');
     let botProcess = ChildProcess.spawn(process.argv[0], [process.argv[1], 'bot']);
 
@@ -45,8 +47,17 @@ const botProcess = () => {
     const ModerationLog = require('./model/moderation-log');
     const DM = require('./model/dm');
 
+    const crashRecover = (exception) => {
+        Logger.exception(exception);
+        Logger.notice('Need reboot');
+    };
+
+    process.on('uncaughtException', crashRecover);
+
     let bot = new Discord.Client();
     global.bot = bot;
+
+    bot.on('error', crashRecover);
 
     /**
      * @param {GuildMember} member
@@ -73,9 +84,12 @@ const botProcess = () => {
      * @param {Message} message
      */
     bot.on('message', (message) => {
-        const isCommand = Command.parseMessage(message);
         SemiBlacklist.parseMessage(message);
-        DM.parseMessage(message, isCommand);
+
+        if (!message.author.bot) {
+            const isCommand = Command.parseMessage(message);
+            DM.parseMessage(message, isCommand);
+        }
     });
 
     bot.on('ready', async () => {
