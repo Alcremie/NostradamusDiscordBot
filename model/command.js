@@ -11,6 +11,7 @@ const commandAliases = {
     'rep': 'report',
     'miniclass': 'mini-class',
     'loadroles': 'load-roles',
+    'modlist': 'mod-list',
 };
 
 const Command = {
