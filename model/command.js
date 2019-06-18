@@ -17,6 +17,8 @@ const commandAliases = {
     'addlanguage': 'add-language',
     'addcountry': 'add-country',
     'setavatar': 'set-avatar',
+    'dictee': 'dictation',
+    'dictée': 'dictation',
 };
 
 const Command = {
