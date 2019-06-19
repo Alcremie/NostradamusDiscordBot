@@ -18,7 +18,9 @@ const commandAliases = {
     'addcountry': 'add-country',
     'setavatar': 'set-avatar',
     'dictee': 'dictation',
-    'dictée': 'dictation',
+    'tuteur': 'tutors',
+    'tuteurs': 'tutors',
+    'tutor': 'tutors',
 };
 
 const Command = {
