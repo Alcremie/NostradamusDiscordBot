@@ -2,15 +2,22 @@ const fs = require('fs');
 const Config = require('../config.json');
 const commandAliases = {
     'reboot': 'reload',
+
     'level': 'french',
     'rank': 'french',
+
     'pays': 'country',
+
     'langue': 'language',
     'langage': 'language',
+
     'rp': 'report',
     'rep': 'report',
+
     'miniclass': 'mini-class',
+
     'loadroles': 'load-roles',
+
     'modlist': 'mod-list',
     'mod': 'mod-list',
     'modo': 'mod-list',
@@ -22,15 +29,33 @@ const commandAliases = {
     'moderateurs': 'mod-list',
     'moderator': 'mod-list',
     'moderators': 'mod-list',
+
     'comite': 'comitee',
     'comité': 'comitee',
+
     'addlanguage': 'add-language',
+
     'addcountry': 'add-country',
+
     'setavatar': 'set-avatar',
+
     'dictee': 'dictation',
+    'dictée': 'dictation',
+
     'tuteur': 'tutors',
     'tuteurs': 'tutors',
     'tutor': 'tutors',
+
+    'outloudreading': 'out-loud-reading',
+    'reading': 'out-loud-reading',
+    'readingoutloud': 'out-loud-reading',
+    'lecture-à-voix-haute': 'out-loud-reading',
+    'lecture-a-voix-haute': 'out-loud-reading',
+    'lectureàvoixhaute': 'out-loud-reading',
+    'lectureavoixhaute': 'out-loud-reading',
+    'lecture': 'out-loud-reading',
+    'lecturevoixhaute': 'out-loud-reading',
+    'lecture-voix-haute': 'out-loud-reading',
 };
 
 const Command = {
