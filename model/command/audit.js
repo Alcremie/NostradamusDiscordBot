@@ -28,6 +28,7 @@ const nonLanguageNorCountryRoles = [
     'Rawgoat',
     'Rai',
     'Statbot',
+    'Nitro Booster',
     '@everyone',
 ];
 
