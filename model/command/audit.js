@@ -23,7 +23,7 @@ const nonLanguageNorCountryRoles = [
     'Langue',
     'Dyno',
     'Lecture à voix haute',
-    'mini-class',
+    'Mini classe',
     'Dictée',
     'Rawgoat',
     'Rai',
