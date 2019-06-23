@@ -12,8 +12,11 @@
     "roles": {
         "mod": "",
         "officialMember": "",
+        "dictation": "",
         "miniClass": "",
+        "outLoudReading": "",
         "comitee": "",
+        "tutor": "",
         "native": "",
         "advanced": "",
         "intermediate": "",
@@ -29,5 +32,7 @@
         "bot": "",
         "frenchBeginner": "",
         "french": ""
-    }
+    },
+    "disabledCommands": [],
+    "notCountryOrLanguageRoles": []
 }

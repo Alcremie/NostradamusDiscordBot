@@ -90,10 +90,14 @@ const Command = {
      */
     isValid: (command) => {
         let valid = fs.existsSync('model/command/' + command.toLowerCase() + '.js');
+        let canonicalCommand = command.toLowerCase();
 
         if (!valid && commandAliases.hasOwnProperty(command)) {
             valid = fs.existsSync('model/command/' + commandAliases[command].toLowerCase() + '.js');
+            canonicalCommand = commandAliases[command].toLowerCase();
         }
+
+        valid = valid && Config.disabledCommands.indexOf(canonicalCommand) < 0;
 
         return valid;
     }

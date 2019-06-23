@@ -1,36 +1,7 @@
+const Config = require('../../config.json');
 const Guild = require('../guild');
 const Language = require('../language');
 const Country = require('../country');
-const nonLanguageNorCountryRoles = [
-    'Do not assign this role',
-    'Modo',
-    'Bôt non puni',
-    'Bôt',
-    'Tuteur / Tutrice',
-    '/r/French',
-    'Muted',
-    'Francophone Natif',
-    'Avancé',
-    'Intermédiaire',
-    'Débutant',
-    'Du jour',
-    'Trombinoscope',
-    'Comité de décision',
-    'Membre Officiel',
-    'SANS PAYS',
-    'SANS LANGUE',
-    'DJ',
-    'Langue',
-    'Dyno',
-    'Lecture à voix haute',
-    'Mini classe',
-    'Dictée',
-    'Rawgoat',
-    'Rai',
-    'Statbot',
-    'Nitro Booster',
-    '@everyone',
-];
 
 /**
  * @param {Message} message
@@ -72,7 +43,7 @@ module.exports = (message) => {
             answer += `:\n\n${countriesWithoutRoles.join(', ')}`;
         }
 
-        const mergedDBEntries = languagesList + countriesList + nonLanguageNorCountryRoles;
+        const mergedDBEntries = languagesList + countriesList + Config.notCountryOrLanguageRoles;
         const rolesWithoutDBEntry = rolesList.filter(role => mergedDBEntries.indexOf(role) < 0);
 
         answer += `\n\nI found ${rolesWithoutDBEntry.length} role${rolesWithoutDBEntry.length === 1 ? '' : 's'} that don't have any DB entry assigned`;
