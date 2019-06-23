@@ -30,8 +30,12 @@ const commandAliases = {
     'moderator': 'mod-list',
     'moderators': 'mod-list',
 
-    'comite': 'comitee',
-    'comité': 'comitee',
+    'comitee': 'committee',
+    'commitee': 'committee',
+    'comittee': 'committee',
+    'committe': 'committee',
+    'comite': 'committee',
+    'comité': 'committee',
 
     'addlanguage': 'add-language',
 

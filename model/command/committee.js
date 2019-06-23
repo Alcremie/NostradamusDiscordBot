@@ -13,7 +13,7 @@ module.exports = async (message) => {
     }
 
     let list = message.guild.members.filter(
-        member => member.roles.has(Config.roles.comitee)
+        member => member.roles.has(Config.roles.committee)
     ).map(
         member => (member.nickname !== null ? member.nickname : member.user.username) + '#' + member.user.discriminator
     );
