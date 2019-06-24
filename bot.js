@@ -63,11 +63,11 @@ const botProcess = () => {
      * @param {GuildMember} member
      */
     bot.on('guildMemberAdd', (member) => {
-        let englishMessage = `**Welcome to the official /r/French Discord, ${member.user}!\nTo be able to send messages in the other channels, please follow these instructions.**`;
-        let frenchMessage = `**Bienvenue sur le serveur Discord officiel de /r/French, ${member.user} !\nPour pouvoir écrire dans les autres salons, veuillez suivre ces instructions.**`;
+        let englishMessage = `**Welcome to the ${Guild.discordGuild.name} Discord server, ${member.user}!\nTo be able to send messages in the other channels, please follow these instructions.**`;
+        let frenchMessage = `**Bienvenue sur le serveur Discord ${Guild.discordGuild.name}, ${member.user} !\nPour pouvoir écrire dans les autres salons, veuillez suivre ces instructions.**`;
 
-        englishMessage += '\n\nFor starters, you need to specify your proficiency in French by typing the command `!french` in the chat followed by your level. The available levels are `beginner`, `intermediate`, `advanced` and `native`. For example: `!french intermediate`';
-        frenchMessage += '\n\nPour commencer, il faut que tu précises ton niveau en français en tapant dans le chat la commande `!french` suivie de ton niveau. Les niveaux sont `débutant`, `intermédiaire`, `avancé` et `natif`. Par exemple: `!french intermédiaire`';
+        englishMessage += '\n\nFor starters, you need to specify your proficiency in ' + Config.learntLanguage.english + ' by typing the command `' + Config.prefix + Config.levelCommand + '` in the chat followed by your level. The available levels are `beginner`, `intermediate`, `advanced` and `native`. For example: `' + Config.prefix + Config.levelCommand + ' intermediate`';
+        frenchMessage += '\n\nPour commencer, il faut que tu précises ton niveau en ' + Config.learntLanguage.french + ' en tapant dans le chat la commande `' + Config.prefix + Config.levelCommand + '` suivie de ton niveau. Les niveaux sont `débutant`, `intermédiaire`, `avancé` et `natif`. Par exemple: `' + Config.prefix + Config.levelCommand + ' intermédiaire`';
 
         Guild.welcomeChannel.send(englishMessage + '\n\n' + frenchMessage);
     });

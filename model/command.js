@@ -1,10 +1,9 @@
 const fs = require('fs');
 const Config = require('../config.json');
-const commandAliases = {
+let commandAliases = {
     'reboot': 'reload',
 
-    'level': 'french',
-    'rank': 'french',
+    'rank': 'level',
 
     'pays': 'country',
 
@@ -61,6 +60,7 @@ const commandAliases = {
     'lecturevoixhaute': 'out-loud-reading',
     'lecture-voix-haute': 'out-loud-reading',
 };
+commandAliases[Config.levelCommand] = 'level';
 
 const Command = {
     /**

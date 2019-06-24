@@ -1,3 +1,4 @@
+const Config = require('../../config.json');
 const Guild = require('../guild');
 
 /**
@@ -18,10 +19,10 @@ module.exports = async (message) => {
         let warnMessageEn = ``;
         let warnMessageFr = ``;
 
-        warnMessageEn += `trolling on the French server. `;
+        warnMessageEn += `trolling on the ${Guild.discordGuild.name} server. `;
         warnMessageEn += `If you do not change your behavior, you will be banned.`;
 
-        warnMessageFr += `troll sur le serveur French. `;
+        warnMessageFr += `troll sur le serveur ${Guild.discordGuild.name}. `;
         warnMessageFr += `Si vous ne changez pas de comportement, vous serez banni.`;
 
         if (foundMembers.length > 0) {
@@ -34,9 +35,9 @@ module.exports = async (message) => {
             answer += `I didn't understand who you wanted to warn, so I will just write "<@ID>" in the command below.`
         }
 
-        answer += `\n\nPlease copy one of the commands below, depending on the warned member's language, and send it in the ${Channel.modLogChannel} channel.\n`;
-        answer += `\`\`\`rg!warn ${userId} [ADM] ${warnMessageEn}\`\`\``;
-        answer += `\`\`\`rg!warn ${userId} [ADM] ${warnMessageFr}\`\`\``;
+        answer += `\n\nPlease copy one of the commands below, depending on the warned member's language, and send it in the ${Guild.modLogChannel} channel.\n`;
+        answer += `\`\`\`${Config.warnCommand.replace('%id', userId).replace('%reason', warnMessageEn)}\`\`\``;
+        answer += `\`\`\`${Config.warnCommand.replace('%id', userId).replace('%reason', warnMessageFr)}\`\`\``;
 
         message.reply(answer);
     }

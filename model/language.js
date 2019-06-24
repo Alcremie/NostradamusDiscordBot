@@ -18,16 +18,16 @@ const Language = {
     },
 
     /**
-     * @param {string} english
-     * @param {string} french
+     * @param {string} friendly
+     * @param {string} role
      * @returns {Promise}
      */
-    add: (english, french) => {
+    add: (friendly, role) => {
         return new Promise((resolve, reject) => {
-            Language.list.push({friendly: english, role: french});
+            Language.list.push({friendly: friendly, role: role});
 
             db.query('SET NAMES utf8');
-            db.query(`INSERT INTO languages (friendly, role) VALUES (?, ?)`, [english, french], (error) => {
+            db.query(`INSERT INTO languages (friendly, role) VALUES (?, ?)`, [friendly, role], (error) => {
                 error ? reject(error) : resolve();
             });
         });

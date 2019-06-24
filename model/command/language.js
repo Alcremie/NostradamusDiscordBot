@@ -27,7 +27,7 @@ module.exports = async (message, args) => {
             role = Config.roles.noLanguage;
         } else if (role.id === Config.roles.native) {
             rolesToRemove = rolesToRemove.concat(member.roles.array().filter(
-                role => Object.values(Guild.frenchLevelRoles).indexOf(role.name) > -1
+                role => Object.values(Guild.levelRoles).indexOf(role.name) > -1
             ));
         }
 

@@ -17,27 +17,27 @@ module.exports = async (message, args) => {
     if (Guild.isMemberMod(member)) {
         args = args.join(' ').split('|');
 
-        const english = args[0];
-        const french = args[1];
+        const friendly = args[0];
+        const role = args[1];
 
-        if (!message.guild.roles.find(guildRole => guildRole.name === french)) {
-            Guild.createRole(french)
+        if (!message.guild.roles.find(guildRole => guildRole.name === role)) {
+            Guild.createRole(role)
                 .then(role => {
                     message.reply(`new role added in Discord: ${role}`);
 
                     // then add to database
-                    Country.add(english, french).then(() => {
-                        message.reply(`new role added in the database: ${french}`);
+                    Country.add(friendly, role).then(() => {
+                        message.reply(`new role added in the database: ${role}`);
                     }).catch(error => {
                         Logger.exception(error);
-                        message.reply(`new role couldn't be added in the database: ${french}`);
+                        message.reply(`new role couldn't be added in the database: ${role}`);
                     });
                 }).catch(error => {
                     Logger.exception(error);
-                    message.reply(`new role couldn't be added in Discord: ${french}`);
+                    message.reply(`new role couldn't be added in Discord: ${role}`);
                 });
         } else {
-            message.channel.send(`The role ${french} already exists.`);
+            message.channel.send(`The role ${role} already exists.`);
         }
     }
 };

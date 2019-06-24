@@ -8,7 +8,7 @@ const SECONDS_IN_DAY = 24 * 60 * 60 * 1000;
 
 const Guild = {
     /** {Object} */
-    frenchLevelRolesIds: {
+    levelRolesIds: {
         native: Config.roles.native,
         advanced: Config.roles.advanced,
         intermediate: Config.roles.intermediate,
@@ -16,7 +16,7 @@ const Guild = {
     },
 
     /** {Object} */
-    frenchLevelRoles: {
+    levelRoles: {
         native: 'Francophone Natif',
         advanced: 'Avancé',
         intermediate: 'Intermédiaire',
@@ -92,15 +92,15 @@ const Guild = {
      * @param {GuildMember} member
      * @returns {boolean}
      */
-    memberHasFrenchLevelRole: (member) => {
-        return member.roles.some(role => Object.values(Guild.frenchLevelRolesIds).indexOf(role.id) > -1);
+    memberHasLevelRole: (member) => {
+        return member.roles.some(role => Object.values(Guild.levelRolesIds).indexOf(role.id) > -1);
     },
 
     /**
      * @param {GuildMember} member
      * @returns {*}
      */
-    isMemberFrenchNative: (member) => {
+    isMemberNative: (member) => {
         return member.roles.has(Config.roles.native);
     },
 

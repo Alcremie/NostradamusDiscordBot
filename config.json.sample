@@ -30,8 +30,13 @@
         "modLog": "",
         "automod": "",
         "bot": "",
-        "frenchBeginner": "",
-        "french": ""
+        "beginner": "",
+        "learntLanguage": ""
+    },
+    "levelCommand": "",
+    "learntLanguage": {
+        "french": "",
+        "english": ""
     },
     "disabledCommands": [],
     "notCountryOrLanguageRoles": []

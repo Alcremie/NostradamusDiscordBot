@@ -1,8 +1,9 @@
+const Logger = require('@elian-wonhalf/pretty-logger');
 const Config = require('../config.json');
 const Guild = require('./guild');
 
 const STEPS = [
-    'frenchLevel',
+    'level',
     'nativeLanguage',
     'country'
 ];
@@ -18,20 +19,20 @@ const MemberRolesFlow = {
 
         if (nextStep !== null) {
             const callback = 'get' + nextStep.substr(0, 1).toUpperCase() + nextStep.substr(1) + 'StepMessage';
-            message.reply(MemberRolesFlow[callback](Guild.isMemberFrenchNative(member)));
+            message.reply(MemberRolesFlow[callback](Guild.isMemberNative(member)));
         } else {
             setTimeout(() => Guild.clearWelcomeMessagesForMember(member), 5000);
             member.addRole(Config.roles.officialMember);
 
-            if (Guild.isMemberFrenchNative(member)) {
+            if (Guild.isMemberNative(member)) {
                 reply = 'Tu peux maintenant poster sur les autres canaux :D ! Si tu te rends compte que ce n\'est pas le cas, appelle un modérateur.';
-                reply += `\nSi tu te sens perdu, tu peux dire bonjour dans <#${Config.channels.french}>.`;
+                reply += `\nSi tu te sens perdu, tu peux dire bonjour dans <#${Config.channels.learntLanguage}>.`;
             } else {
                 reply = 'You can now post on the other channels :D ! If that\'s not the case, call a moderator. // Tu peux maintenant poster sur les autres canaux :D ! Si tu te rends compte que ce n\'est pas le cas, contacte un modérateur.';
-                reply += `\nIf you feel lost, you can say hi in <#${Config.channels.frenchBeginner}>. // Si tu te sens perdu, tu peux dire bonjour dans <#${Config.channels.frenchBeginner}>.`;
+                reply += `\nIf you feel lost, you can say hi in <#${Config.channels.beginner}>. // Si tu te sens perdu, tu peux dire bonjour dans <#${Config.channels.beginner}>.`;
             }
 
-            member.user.send(reply);
+            member.user.send(reply).catch(Logger.error);
         }
     },
 
@@ -58,8 +59,8 @@ const MemberRolesFlow = {
      * @param {GuildMember} member
      * @returns {boolean}
      */
-    isFrenchLevelNeeded: (member) => {
-        return !Guild.memberHasFrenchLevelRole(member);
+    isLevelNeeded: (member) => {
+        return !Guild.memberHasLevelRole(member);
     },
 
     /**
@@ -67,7 +68,7 @@ const MemberRolesFlow = {
      * @returns {boolean}
      */
     isNativeLanguageNeeded: (member) => {
-        return !Guild.isMemberFrenchNative(member) && !Guild.memberHasLanguageRole(member);
+        return !Guild.isMemberNative(member) && !Guild.memberHasLanguageRole(member);
     },
 
     /**
@@ -79,39 +80,34 @@ const MemberRolesFlow = {
     },
 
     /**
-     * @param {boolean} isFrenchNative
      * @returns {string}
      */
-    getFrenchLevelStepMessage: (isFrenchNative) => {
-        const example = isFrenchNative ? '`!french natif`' : '`!french intermediate`';
-        const frenchMessage = 'Il faut maintenant que tu précises ton niveau en français en tapant la commande `!french` suivie de ton niveau. Les niveaux sont débutant, intermédiaire, avancé et natif. Par exemple: ' + example;
-        const englishMessage = 'You now need to specify your proficiency in French by typing the command `!french` followed by your level. The available levels are beginner, intermediate, advanced and native. For example: ' + example;
+    getLevelStepMessage: () => {
+        const command = Config.prefix + Config.levelCommand;
+        const frenchMessage = 'Il faut maintenant que tu précises ton niveau en ' + Config.learntLanguage.french + ' en tapant la commande `' + command + ' intermediaire` suivie de ton niveau. Les niveaux sont débutant, intermédiaire, avancé et natif. Par exemple: ' + example;
+        const englishMessage = 'You now need to specify your proficiency in ' + Config.learntLanguage.english + ' by typing the command `' + command + ' intermediate` followed by your level. The available levels are beginner, intermediate, advanced and native. For example: ' + example;
 
-        return isFrenchNative ? frenchMessage : '\n\n' + englishMessage + '\n\n' + frenchMessage;
+        return '\n\n' + englishMessage + '\n\n' + frenchMessage;
     },
 
     /**
-     * @param {boolean} isFrenchNative
      * @returns {string}
      */
-    getNativeLanguageStepMessage: (isFrenchNative) => {
-        const example = isFrenchNative ? '`!language french`' : '`!language english`';
-        const frenchMessage = 'Il faut maintenant que tu précises ta langue natale en tapant la commande `!language` suivie de ta langue. Par exemple: ' + example;
-        const englishMessage = 'You now need to specify your native language by typing the command `!language` followed by your language. For example: ' + example;
+    getNativeLanguageStepMessage: () => {
+        const frenchMessage = 'Il faut maintenant que tu précises ta langue natale en tapant la commande `!language` suivie de ta langue. Par exemple: `!language french`';
+        const englishMessage = 'You now need to specify your native language by typing the command `!language` followed by your language. For example: `!language english`';
 
-        return isFrenchNative ? frenchMessage : '\n\n' + englishMessage + '\n\n' + frenchMessage;
+        return '\n\n' + englishMessage + '\n\n' + frenchMessage;
     },
 
     /**
-     * @param {boolean} isFrenchNative
      * @returns {string}
      */
-    getCountryStepMessage: (isFrenchNative) => {
-        const example = isFrenchNative ? '`!country France`' : '`!country United States`';
-        const frenchMessage = 'Il faut maintenant que tu précises ton pays en tapant la commande `!country` suivie de ton pays. Par exemple: ' + example + '. Tu as le droit - si tu ne veux pas dévoiler cette information - de taper la commande `!country Pays inconnu`.';
-        const englishMessage = 'You now need to specify your country by typing the command `!country` followed by your country. For example: ' + example + '. You have the right to - if you do not want to give away that information - type the command `!country Unknown country`.';
+    getCountryStepMessage: () => {
+        const frenchMessage = 'Il faut maintenant que tu précises ton pays en tapant la commande `!country` suivie de ton pays. Par exemple: `!country France`. Tu as le droit - si tu ne veux pas dévoiler cette information - de taper la commande `!country Pays inconnu`.';
+        const englishMessage = 'You now need to specify your country by typing the command `!country` followed by your country. For example: `!country United States`. You have the right to - if you do not want to give away that information - type the command `!country Unknown country`.';
 
-        return isFrenchNative ? frenchMessage : '\n\n' + englishMessage + '\n\n' + frenchMessage;
+        return '\n\n' + englishMessage + '\n\n' + frenchMessage;
     }
 };
 
