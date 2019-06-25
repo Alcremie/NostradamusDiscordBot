@@ -18,5 +18,5 @@ module.exports = async (message) => {
         member => (member.nickname !== null ? member.nickname : member.user.username) + '#' + member.user.discriminator
     );
 
-    message.reply(`there are currently ${list.length} tuteurs:\n\n${list.join('\n')}`);
+    message.reply(`there are currently ${list.length} tutors:\n\n${list.join('\n')}`);
 };

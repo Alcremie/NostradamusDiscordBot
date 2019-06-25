@@ -16,15 +16,16 @@ module.exports = async (message, args) => {
     const language = args.join(' ').toLowerCase().trim();
 
     if (language !== '') {
+        const roleName = Language.getRoleNameFromString(language);
+        let role = Guild.getRoleByName(roleName);
         let rolesToRemove = member.roles.array().filter(role => {
             return Language.getRoleNameList().indexOf(role.name) > -1 || role.id === Config.roles.noLanguage;
         });
-        const roleName = Language.getRoleNameFromString(language);
-        let role = Guild.getRoleByName(roleName);
 
         if (role === null) {
             Guild.botChannel.send(`Language tag request by ${member}: ${language}\n${message.url}`);
             role = Config.roles.noLanguage;
+            rolesToRemove = rolesToRemove.filter(role => role.id !== Config.roles.noLanguage);
         } else if (role.id === Config.roles.native) {
             rolesToRemove = rolesToRemove.concat(member.roles.array().filter(
                 role => Object.values(Guild.levelRoles).indexOf(role.name) > -1

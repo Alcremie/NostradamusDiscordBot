@@ -14,11 +14,11 @@ module.exports = async (message) => {
 
     if (member.roles.has(Config.roles.miniClass)) {
         member.removeRole(Config.roles.miniClass).then(() => {
-            message.reply('you no longer have the mini-class role.');
+            message.reply('you will no longer be pinged when there\'s a mini class.');
         });
     } else {
         member.addRole(Config.roles.miniClass).then(() => {
-            message.reply('you now have the mini-class role.');
+            message.reply('you will now be pinged when there\'s a mini class.');
         });
     }
 };

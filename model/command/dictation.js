@@ -14,11 +14,11 @@ module.exports = async (message) => {
 
     if (member.roles.has(Config.roles.dictation)) {
         member.removeRole(Config.roles.dictation).then(() => {
-            message.reply('you no longer have the Dictée role.');
+            message.reply('you will no longer be pinged when there\'s a dictation.');
         });
     } else {
         member.addRole(Config.roles.dictation).then(() => {
-            message.reply('you now have the Dictée role.');
+            message.reply('you will now be pinged when there\'s a dictation.');
         });
     }
 };

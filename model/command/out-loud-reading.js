@@ -14,11 +14,11 @@ module.exports = async (message) => {
 
     if (member.roles.has(Config.roles.outLoudReading)) {
         member.removeRole(Config.roles.outLoudReading).then(() => {
-            message.reply('you no longer have the Lecture à voix haute role.');
+            message.reply('you will no longer be pinged when there\'s an out-loud reading.');
         });
     } else {
         member.addRole(Config.roles.outLoudReading).then(() => {
-            message.reply('you now have the Lecture à voix haute role.');
+            message.reply('you will now be pinged when there\'s an out-loud reading.');
         });
     }
 };

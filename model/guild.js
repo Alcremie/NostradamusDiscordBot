@@ -136,7 +136,7 @@ const Guild = {
      * @returns {Role|null}
      */
     getRoleByName: (roleName) => {
-        return Guild.discordGuild.roles.find(role => role.name === roleName);
+        return Guild.discordGuild.roles.find(role => role.name.toLowerCase() === roleName.toLowerCase());
     },
 
     /**
