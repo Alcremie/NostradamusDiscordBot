@@ -1,6 +1,8 @@
 .idea
 *.iml
 node_modules
-config.json
 deploy.sh
-semi-blacklist.json
+config.json*
+!config.json.sample
+semi-blacklist.json*
+!semi-blacklist.json.sample
