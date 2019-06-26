@@ -32,7 +32,7 @@ const MemberRolesFlow = {
                 reply += `\nIf you feel lost, you can say hi in <#${Config.channels.beginner}>. // Si tu te sens perdu, tu peux dire bonjour dans <#${Config.channels.beginner}>.`;
             }
 
-            member.user.send(reply).catch(Logger.error);
+            member.user.send(reply).catch(Logger.exception);
         }
     },
 
