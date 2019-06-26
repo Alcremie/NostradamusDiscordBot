@@ -15,9 +15,19 @@ module.exports = async (message, args) => {
     const member = message.member;
     const language = args.join(' ').toLowerCase().trim();
 
+    if (member === null) {
+        message.reply('sorry, an error happened, please contact the mods and give them your level in ' + Config.learntLanguage.english + ', your native language, and your country.');
+        return;
+    }
+
     if (language !== '') {
         const roleName = Language.getRoleNameFromString(language);
-        let role = Guild.getRoleByName(roleName);
+        let role = null;
+
+        if (roleName !== null) {
+            role = Guild.getRoleByName(roleName);
+        }
+
         let rolesToRemove = member.roles.array().filter(role => {
             return Language.getRoleNameList().indexOf(role.name) > -1 || role.id === Config.roles.noLanguage;
         });

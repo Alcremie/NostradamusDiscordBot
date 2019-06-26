@@ -51,15 +51,16 @@ levels[Guild.levelRoles.beginner.toLowerCase()] = Guild.levelRolesIds.beginner;
  */
 module.exports = async (message, args) => {
     const member = Guild.getMemberFromMessage(message);
-    const rolesToRemove = member.roles.array().filter(
-        role => Object.values(Guild.levelRoles).indexOf(role.name) > -1
-    );
     const level = args.join(' ').toLowerCase().trim();
 
     if (member === null) {
-        message.reply('sorry, you do not seem to be on the server.');
+        message.reply('sorry, an error happened, please contact the mods and give them your level in ' + Config.learntLanguage.english + ', your native language, and your country.');
         return;
     }
+
+    const rolesToRemove = member.roles.array().filter(
+        role => Object.values(Guild.levelRoles).indexOf(role.name) > -1
+    );
 
     if (levels.hasOwnProperty(level)) {
         const role = levels[level];
