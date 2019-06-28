@@ -35,7 +35,7 @@ module.exports = async (message) => {
             answer += `I didn't understand who you wanted to warn, so I will just write "<@ID>" in the command below.`
         }
 
-        answer += `\n\nPlease copy one of the commands below, depending on the warned member's language, and send it in the ${Guild.modLogChannel} channel.\n`;
+        answer += `\n\nPlease copy one of the commands below, depending on the warned member's language, and send it in one of the mods channels.\n`;
         answer += `\`\`\`${Config.warnCommand.replace('%id', userId).replace('%reason', warnMessageEn)}\`\`\``;
         answer += `\`\`\`${Config.warnCommand.replace('%id', userId).replace('%reason', warnMessageFr)}\`\`\``;
 
