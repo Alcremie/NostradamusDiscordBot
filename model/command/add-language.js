@@ -22,8 +22,8 @@ module.exports = async (message, args) => {
 
         if (!message.guild.roles.find(guildRole => guildRole.name === role)) {
             Guild.createRole(role)
-                .then(role => {
-                    message.reply(`new role added in Discord: ${role}`);
+                .then(roleInstance => {
+                    message.reply(`new role added in Discord: ${roleInstance}`);
 
                     // then add to database
                     Language.add(friendly, role).then(() => {
