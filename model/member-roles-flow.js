@@ -84,8 +84,8 @@ const MemberRolesFlow = {
      */
     getLevelStepMessage: () => {
         const command = Config.prefix + Config.levelCommand;
-        const frenchMessage = 'Il faut maintenant que tu précises ton niveau en ' + Config.learntLanguage.french + ' en tapant la commande `' + command + ' intermediaire` suivie de ton niveau. Les niveaux sont débutant, intermédiaire, avancé et natif. Par exemple: ' + example;
-        const englishMessage = 'You now need to specify your proficiency in ' + Config.learntLanguage.english + ' by typing the command `' + command + ' intermediate` followed by your level. The available levels are beginner, intermediate, advanced and native. For example: ' + example;
+        const frenchMessage = 'Il faut maintenant que tu précises ton niveau en ' + Config.learntLanguage.french + ' en tapant la commande `' + command + '` suivie de ton niveau. Les niveaux sont débutant, intermédiaire, avancé et natif. Par exemple: `' + command + ' intermediaire`';
+        const englishMessage = 'You now need to specify your proficiency in ' + Config.learntLanguage.english + ' by typing the command `' + command + '` followed by your level. The available levels are beginner, intermediate, advanced and native. For example: `' + command + ' intermediate`';
 
         return '\n\n' + englishMessage + '\n\n' + frenchMessage;
     },
@@ -94,8 +94,8 @@ const MemberRolesFlow = {
      * @returns {string}
      */
     getNativeLanguageStepMessage: () => {
-        const frenchMessage = 'Il faut maintenant que tu précises ta langue natale en tapant la commande `!language` suivie de ta langue. Par exemple: `!language french`';
-        const englishMessage = 'You now need to specify your native language by typing the command `!language` followed by your language. For example: `!language english`';
+        const frenchMessage = 'Il faut maintenant que tu précises ta langue natale en tapant la commande `' + Config.prefix + 'language` suivie de ta langue. Par exemple: `' + Config.prefix + 'language french`';
+        const englishMessage = 'You now need to specify your native language by typing the command `' + Config.prefix + 'language` followed by your language. For example: `' + Config.prefix + 'language english`';
 
         return '\n\n' + englishMessage + '\n\n' + frenchMessage;
     },
@@ -104,8 +104,8 @@ const MemberRolesFlow = {
      * @returns {string}
      */
     getCountryStepMessage: () => {
-        const frenchMessage = 'Il faut maintenant que tu précises ton pays en tapant la commande `!country` suivie de ton pays. Par exemple: `!country France`. Tu as le droit - si tu ne veux pas dévoiler cette information - de taper la commande `!country Pays inconnu`.';
-        const englishMessage = 'You now need to specify your country by typing the command `!country` followed by your country. For example: `!country United States`. You have the right to - if you do not want to give away that information - type the command `!country Unknown country`.';
+        const frenchMessage = 'Il faut maintenant que tu précises ton pays en tapant la commande `' + Config.prefix + 'country` suivie de ton pays. Par exemple: `' + Config.prefix + 'country France`. Tu as le droit - si tu ne veux pas dévoiler cette information - de taper la commande `' + Config.prefix + 'country Pays inconnu`.';
+        const englishMessage = 'You now need to specify your country by typing the command `' + Config.prefix + 'country` followed by your country. For example: `' + Config.prefix + 'country United States`. You have the right to - if you do not want to give away that information - type the command `' + Config.prefix + 'country Unknown country`.';
 
         return '\n\n' + englishMessage + '\n\n' + frenchMessage;
     }
