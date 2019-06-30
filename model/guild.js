@@ -36,6 +36,9 @@ const Guild = {
     publicModLogChannel: null,
 
     /** {TextChannel} */
+    anonymousMessagesChannel: null,
+
+    /** {TextChannel} */
     modLogChannel: null,
 
     /** {TextChannel} */
@@ -51,6 +54,7 @@ const Guild = {
         Guild.discordGuild = bot.guilds.find(guild => guild.id === Config.guild);
         Guild.welcomeChannel = Guild.discordGuild.channels.find(channel => channel.id === Config.channels.welcome);
         Guild.publicModLogChannel = Guild.discordGuild.channels.find(channel => channel.id === Config.channels.publicModLog);
+        Guild.anonymousMessagesChannel = Guild.discordGuild.channels.find(channel => channel.id === Config.channels.anonymousMessages);
         Guild.modLogChannel = Guild.discordGuild.channels.find(channel => channel.id === Config.channels.modLog);
         Guild.botChannel = Guild.discordGuild.channels.find(channel => channel.id === Config.channels.bot);
         Guild.automodChannel = Guild.discordGuild.channels.find(channel => channel.id === Config.channels.automod);

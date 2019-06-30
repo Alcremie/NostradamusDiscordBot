@@ -9,6 +9,7 @@
 		"charset": "utf8mb4_general_ci"
     },
     "guild": "",
+    "admin": "",
     "roles": {
         "mod": "",
         "officialMember": "",
@@ -27,6 +28,7 @@
     "channels": {
         "welcome": "",
         "publicModLog": "",
+        "anonymousMessages": "",
         "modLog": "",
         "automod": "",
         "bot": "",

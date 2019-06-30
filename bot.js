@@ -129,6 +129,8 @@ const botProcess = () => {
 
         Logger.info('--------');
 
+        DM.init();
+
         if (process.argv[3] === '--reboot') {
             Guild.botChannel.send('I\'m back :) .');
         }
