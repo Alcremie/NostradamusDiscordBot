@@ -104,8 +104,8 @@ const MemberRolesFlow = {
      * @returns {string}
      */
     getCountryStepMessage: () => {
-        const frenchMessage = 'Il faut maintenant que tu précises ton pays en tapant la commande `' + Config.prefix + 'country` suivie de ton pays. Par exemple: `' + Config.prefix + 'country France`. Tu as le droit - si tu ne veux pas dévoiler cette information - de taper la commande `' + Config.prefix + 'country Pays inconnu`.';
-        const englishMessage = 'You now need to specify your country by typing the command `' + Config.prefix + 'country` followed by your country. For example: `' + Config.prefix + 'country United States`. You have the right to - if you do not want to give away that information - type the command `' + Config.prefix + 'country Unknown country`.';
+        const frenchMessage = 'Il faut maintenant que tu précises le pays dans lequel tu vis en tapant la commande `' + Config.prefix + 'country` suivie du pays. Par exemple: `' + Config.prefix + 'country France`. Tu as le droit - si tu ne veux pas dévoiler cette information - de taper la commande `' + Config.prefix + 'country Pays inconnu`.';
+        const englishMessage = 'You now need to specify the country you\'re currently living in by typing the command `' + Config.prefix + 'country` followed by the country. For example: `' + Config.prefix + 'country United States`. You have the right to - if you do not want to give away that information - type the command `' + Config.prefix + 'country Unknown country`.';
 
         return '\n\n' + englishMessage + '\n\n' + frenchMessage;
     }
