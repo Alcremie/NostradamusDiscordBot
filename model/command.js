@@ -59,6 +59,10 @@ let commandAliases = {
     'lecture': 'out-loud-reading',
     'lecturevoixhaute': 'out-loud-reading',
     'lecture-voix-haute': 'out-loud-reading',
+
+    'game': 'games',
+    'jeu': 'games',
+    'jeux': 'games',
 };
 commandAliases[Config.levelCommand] = 'level';
 
