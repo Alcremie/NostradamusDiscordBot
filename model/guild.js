@@ -59,8 +59,9 @@ const Guild = {
         Guild.botChannel = Guild.discordGuild.channels.find(channel => channel.id === Config.channels.bot);
         Guild.automodChannel = Guild.discordGuild.channels.find(channel => channel.id === Config.channels.automod);
 
-        // First delete old welcome messages
+        // First delete old welcome messages and kick inactive new members
         await Guild.deleteOldWelcomeMessages();
+        Guild.kickInactiveNewMembers();
 
         // Then add the ones that were not deleted to the map
         const welcomeMessages = await Guild.welcomeChannel.fetchMessages();
@@ -69,7 +70,16 @@ const Guild = {
         });
 
         // So that if the member gets validated or leaves, we can delete all the related messages easily
-        setInterval(Guild.deleteOldWelcomeMessages, 60 * 60);
+        setInterval(() => {
+            Guild.deleteOldWelcomeMessages();
+            Guild.kickInactiveNewMembers();
+        }, 60 * 60);
+    },
+
+    kickInactiveNewMembers: () => {
+        Guild.discordGuild.members.filter(member => {
+            return (Date.now() - member.joinedTimestamp) >= 3 * 24 * 60 * 60 && member.roles.size < 2;
+        }).array().forEach(member => member.kick('Did not self assign roles'));
     },
 
     /**
