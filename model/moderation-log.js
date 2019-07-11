@@ -44,8 +44,9 @@ const ModerationLog = {
                 const userTarget = entry.targetType === 'USER';
                 const kickOrBan = entry.action === 'MEMBER_KICK' || entry.action === 'MEMBER_BAN_ADD';
                 const inList = entry.target !== undefined && memberIds.indexOf(entry.target.id) > -1;
+                const notAuto = entry.reason === null || entry.reason.match('[AUTO]') === null;
 
-                return userTarget && kickOrBan && inList;
+                return userTarget && kickOrBan && inList && notAuto;
             }).map(entry => {
                 if (ModerationLog.membersWhoLeft[entry.target.id] === null) {
                     let log = `Membre <@${entry.target.id}> ${entry.target.username}#${entry.target.discriminator}`;
