@@ -26,8 +26,6 @@ const MemberRolesFlow = {
 
             reply = 'You can now post on the other channels :D ! If that\'s not the case, call a moderator. // Tu peux maintenant poster sur les autres canaux :D ! Si tu te rends compte que ce n\'est pas le cas, contacte un modérateur.';
             reply += `\nIf you feel lost, you can say hi in <#${Config.channels.beginner}>. // Si tu te sens perdu, tu peux dire bonjour dans <#${Config.channels.beginner}>.\n`;
-            reply += '\nTu peux maintenant poster sur les autres canaux :D ! Si tu te rends compte que ce n\'est pas le cas, appelle un modérateur.';
-            reply += `\nSi tu te sens perdu, tu peux dire bonjour dans <#${Config.channels.learntLanguage}>.`;
 
             member.user.send(reply).catch(Logger.exception);
         }
