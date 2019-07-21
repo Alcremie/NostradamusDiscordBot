@@ -97,6 +97,8 @@ const botProcess = () => {
         }
     });
 
+    bot.on('voiceStateUpdate', Guild.voiceStateUpdateHandler);
+
     bot.on('ready', async () => {
         Logger.info('Logged in as ' + bot.user.username + '#' + bot.user.discriminator);
 

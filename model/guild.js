@@ -29,6 +29,9 @@ const Guild = {
     /** {Guild} */
     discordGuild: null,
 
+    /** {Object} */
+    voiceMoveMembers: {},
+
     /** {TextChannel} */
     welcomeChannel: null,
 
@@ -80,6 +83,39 @@ const Guild = {
         Guild.discordGuild.members.filter(member => {
             return ((Date.now() - member.joinedTimestamp) >= 3 * 24 * 60 * 60 * 1000) && member.roles.size < 2;
         }).array().forEach(member => member.kick('[AUTO] Did not self assign roles'));
+    },
+
+    /**
+     * @param {string} snowflake
+     * @param {int} interval
+     */
+    addMemberToVoiceStateUpdateWatcher: (snowflake, interval) => {
+        Guild.voiceMoveMembers[snowflake] = interval;
+    },
+
+    /**
+     * @param {string} snowflake
+     */
+    removeMemberFromVoiceStateUpdateWatcher: (snowflake) => {
+        delete Guild.voiceMoveMembers[snowflake];
+    },
+
+    /**
+     * @param {GuildMember} oldMember
+     * @param {GuildMember} newMember
+     */
+    voiceStateUpdateHandler: (oldMember, newMember) => {
+        const memberIsBeingWatched = Object.keys(Guild.voiceMoveMembers).indexOf(oldMember.id) > -1;
+        const sourceChannel = oldMember.voiceChannel;
+        const destChannel = newMember.voiceChannel;
+        const connectedInDifferentChannel = oldMember.voiceChannel.id !== newMember.voiceChannel.id;
+
+        if (memberIsBeingWatched && connectedInDifferentChannel) {
+            clearInterval(Guild.voiceMoveMembers[oldMember.id]);
+            delete Guild.voiceMoveMembers[oldMember.id];
+
+            sourceChannel.members.array().forEach(member => member.setVoiceChannel(destChannel));
+        }
     },
 
     /**
