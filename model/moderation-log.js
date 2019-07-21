@@ -62,7 +62,7 @@ const ModerationLog = {
                     }
 
                     if (entry.reason !== null) {
-                        const reason = entry.reason.replace(/(https?:\/\/)?[^\s.]+\.[^\s]+/g, '[CENSORED LINK]');
+                        const reason = entry.reason.replace(/https?:\/\/[^\s.]+\.[^\s]+/g, '[CENSORED LINK]');
                         log = `${log} pour la raison suivante : ${reason}`;
                     } else {
                         Guild.modLogChannel.send(`Hey @everyone, I just posted an entry in the public mod log that doesn't have a reason. Remember to **ALWAYS** input a reason when you kick or ban someone! Can someone go to the public log channel and provide the reason, like "Oh à propos de @machin, il a été ban parce que [RAISON]." please? Thank you ♥ !\nhttps://i.discord.fr/lQRn.gif`);
