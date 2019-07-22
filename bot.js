@@ -11,6 +11,7 @@ const mainProcess = () => {
     const stdLog = (callback) => {
         return (data) => {
             const reboot = data.toString().toLowerCase().indexOf('reboot') > -1
+                || data.toString().toLowerCase().indexOf('econnreset') > -1
                 || data.toString().toLowerCase().indexOf('etimedout') > -1;
 
             data = data.toString().replace(/\n$/, '').split('\n');
